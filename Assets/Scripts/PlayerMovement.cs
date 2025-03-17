@@ -21,6 +21,7 @@ public class PlayerMovement : MonoBehaviour
     Vector3 spherePos;
 
     [SerializeField] public float gravity;
+    [SerializeField] public float jumpForce;
     Vector3 velocity;
 
     void Start()
@@ -32,7 +33,7 @@ public class PlayerMovement : MonoBehaviour
     void FixedUpdate()
     {
         GetDirectionAndMove();
-        Gravity();
+        GravityAndJump();
     }
 
     void GetDirectionAndMove()
@@ -53,7 +54,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.LookRotation(direction);
         }
 
-        Debug.Log(direction);
+        // Debug.Log(direction);
     }
 
     bool IsGrounded()
@@ -63,13 +64,27 @@ public class PlayerMovement : MonoBehaviour
         return Physics.CheckSphere(spherePos, controller.radius, groundMask);
     }
 
-    void Gravity()
+    void GravityAndJump()
     {
         if (!IsGrounded())
+        {
             velocity.y += gravity * Time.fixedDeltaTime;
+            // Debug.Log("Not Grounded");
+        }
         else
-            velocity.y = -2f;
-
+        {
+            if (Input.GetButtonDown("Jump"))
+            {
+                velocity.y += jumpForce * Time.fixedDeltaTime * 10;;
+                Debug.Log("Jump");
+            }
+            else
+            {
+                velocity.y = -2f;
+                Debug.Log("Grounded");
+            }
+        }
+        
         controller.Move(velocity * Time.fixedDeltaTime);
     }
 
