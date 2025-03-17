@@ -28,6 +28,9 @@ public class PlayerMovement : MonoBehaviour
     {
         controller = GetComponent<CharacterController>();
         groundYOffset = controller.height - controller.radius + 0.15f;
+        
+        UnityEngine.Cursor.visible = false;
+        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
