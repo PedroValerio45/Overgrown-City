@@ -3,8 +3,6 @@ using System.Collections.Generic;
 using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
-using UnityEngine.InputSystem;
-using UnityEngine.UIElements;
 
 public class PlayerMovement : MonoBehaviour
 {
@@ -29,8 +27,8 @@ public class PlayerMovement : MonoBehaviour
         controller = GetComponent<CharacterController>();
         groundYOffset = controller.height - controller.radius + 0.15f;
         
-        UnityEngine.Cursor.visible = false;
-        UnityEngine.Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void FixedUpdate()
