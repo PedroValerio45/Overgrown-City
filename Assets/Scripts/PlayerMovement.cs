@@ -81,7 +81,7 @@ public class PlayerMovement : MonoBehaviour
             else
             {
                 velocity.y = -2f;
-                Debug.Log("Grounded");
+                // Debug.Log("Grounded");
             }
         }
         
