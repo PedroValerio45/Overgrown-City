@@ -21,6 +21,10 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] public float gravity;
     [SerializeField] public float jumpForce;
     Vector3 velocity;
+    
+    Vector3 moveVelocity = Vector3.zero;
+    [SerializeField] private float acceleration = 10f;
+    [SerializeField] private float deceleration = 20f;
 
     void Start()
     {
@@ -48,15 +52,24 @@ public class PlayerMovement : MonoBehaviour
         Vector3 inputDirection = new Vector3(hzInput, 0, vInput).normalized;
         direction = rotation * inputDirection;
 
-        controller.Move(direction * moveSpeed * Time.fixedDeltaTime);
+        if (direction.magnitude > 0.05f)
+        {
+            moveVelocity = Vector3.Lerp(moveVelocity, direction * moveSpeed, Time.fixedDeltaTime * acceleration);
+        }
+        else
+        {
+            moveVelocity = Vector3.Lerp(moveVelocity, Vector3.zero, Time.fixedDeltaTime * deceleration);
+        }
+
+        controller.Move(moveVelocity * Time.fixedDeltaTime);
 
         if (direction.magnitude > 0.05f)
         {
-            transform.rotation = Quaternion.LookRotation(direction);
+            Quaternion targetRotation = Quaternion.LookRotation(direction);
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
         }
-
-        // Debug.Log(direction);
     }
+
 
     bool IsGrounded()
     {
