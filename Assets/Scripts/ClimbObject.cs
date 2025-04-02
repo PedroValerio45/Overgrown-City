@@ -12,7 +12,7 @@ public class ClimbObject : MonoBehaviour
     {
         if (playerInRange && Input.GetKey(KeyCode.E))
         {
-            Player.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 1f, Player.transform.position.z);
+            Player.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 5f * Time.deltaTime, Player.transform.position.z);
         }
     }
     void OnTriggerEnter(Collider other)
