@@ -6,7 +6,6 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    [SerializeField] public float moveSpeed;
     public Vector3 direction;
     private Quaternion rotation;
     float hzInput;
@@ -20,7 +19,13 @@ public class PlayerMovement : MonoBehaviour
 
     [SerializeField] public float gravity;
     [SerializeField] public float jumpForce;
-    Vector3 velocity;
+    [SerializeField] public float moveSpeed;
+    [SerializeField] public float maxWalkSpeed;
+    [SerializeField] public float maxFallSpeed;
+    private bool isGrounded;
+    private bool jumped;
+    [SerializeField] Vector3 velocity;
+    [SerializeField] Vector3 finalPlayerMotion;
     
     Vector3 moveVelocity = Vector3.zero;
     [SerializeField] private float acceleration = 10f;
@@ -33,13 +38,65 @@ public class PlayerMovement : MonoBehaviour
         
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;
+
+        velocity = Vector3.zero;
+    }
+
+    void Update()
+    {
+        if (Input.GetButtonDown("Jump") && isGrounded)
+        {
+            jumped = true;
+        }
     }
 
     void FixedUpdate()
     {
+        // PlayerMove();
+        // PlayerJump();
+        // CalculatePlayerMotion();
         GetDirectionAndMove();
         GravityAndJump();
     }
+
+    /* void PlayerMove()
+    {
+        hzInput = Input.GetAxis("Horizontal");
+        vInput = Input.GetAxis("Vertical");
+
+        velocity.x = hzInput * maxWalkSpeed;
+        velocity.z = vInput * maxWalkSpeed;
+    } */
+
+    /* void PlayerJump()
+    {
+        if (jumped)
+        {
+            velocity.y = jumpForce;
+            jumped = false;
+        }
+        
+        else if (velocity.y < 0)
+        {
+            velocity.y += gravity * Time.fixedDeltaTime;
+            velocity.y = Mathf.Max(maxFallSpeed, velocity.y);
+        }
+
+        // velocity.y = 0f;
+
+        else if (isGrounded)
+        {
+            velocity.y = -0.1f;
+        }
+    } */
+
+    /* void CalculatePlayerMotion()
+    {
+        finalPlayerMotion = velocity * Time.fixedDeltaTime;
+        finalPlayerMotion = transform.TransformVector(finalPlayerMotion);
+
+        controller.Move(finalPlayerMotion);
+    } */
 
     void GetDirectionAndMove()
     {
@@ -69,8 +126,7 @@ public class PlayerMovement : MonoBehaviour
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
         }
     }
-
-
+    
     bool IsGrounded()
     {
         spherePos = new Vector3(transform.position.x, transform.position.y - groundYOffset, transform.position.z);

@@ -7,6 +7,7 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
+    /*
     [SerializeField] private AudioSource audioSource;
     [SerializeField] private AudioClip text_sfx;
     
@@ -189,5 +190,5 @@ public class DialogueManager : MonoBehaviour
         {
             StartDialogue(nextDialogue.NextDialoguePossibilities[1], dialogueComplete);
         } 
-    }
+    }*/
 }
