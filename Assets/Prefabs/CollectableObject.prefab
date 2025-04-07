@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 4282361246665067812}
   - component: {fileID: 3743259195789718301}
   - component: {fileID: 2333196935404183685}
-  - component: {fileID: 5535314511289773465}
   m_Layer: 0
   m_Name: Collectable
   m_TagString: Untagged
@@ -120,7 +119,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95d1070ab00567a418defda8a84fde9f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playerData: {fileID: 5535314511289773465}
+  player: {fileID: 6222387388658134336, guid: d69a1f9f79845b74fa67f4f57d6e9cf5, type: 3}
+  playerData: {fileID: 3104577329677184069, guid: d69a1f9f79845b74fa67f4f57d6e9cf5,
+    type: 3}
+  playerInv: {fileID: 5798106537057029009, guid: d69a1f9f79845b74fa67f4f57d6e9cf5,
+    type: 3}
   collectableID: 0
 --- !u!95 &2333196935404183685
 Animator:
@@ -143,18 +146,6 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
---- !u!114 &5535314511289773465
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2100785285247063158}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 80d7de60f3c754d469a8bcc2723b2b92, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &8682708539163906292
 GameObject:
   m_ObjectHideFlags: 0

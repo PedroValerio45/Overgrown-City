@@ -5,32 +5,39 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
+    public GameObject player;
     public PlayerData playerData;
+    public PlayerInventory playerInv;
     
-    public int collectableID;
+    [SerializeField] public int collectableID;
     bool collected = false;
     bool playerInRange = false;
-
+    
     private void Start()
     {
-        playerData = GetComponent<PlayerData>();
+        playerData = player.GetComponent<PlayerData>();
+        playerInv = player.GetComponent<PlayerInventory>();
 
-        PlayerData.partsCollected = playerData.ReadPlayerFile();
+        PlayerData.partsCollected = playerData.ReadPlayerFile_Collectables();
         if (PlayerData.partsCollected.Contains(collectableID)) { collected = true; }
         
         switch (collectableID)
         {
             case 0:
                 GetComponent<Renderer>().material.color = Color.yellow;
+                Debug.Log($"Set color for ID {collectableID}");
                 break;
             case 1:
                 GetComponent<Renderer>().material.color = Color.red;
+                Debug.Log($"Set color for ID {collectableID}");
                 break;
             case 2:
                 GetComponent<Renderer>().material.color = Color.blue;
+                Debug.Log($"Set color for ID {collectableID}");
                 break;
             case 3:
                 GetComponent<Renderer>().material.color = Color.magenta;
+                Debug.Log($"Set color for ID {collectableID}");
                 break;
         }
     }
@@ -39,10 +46,12 @@ public class Collectable : MonoBehaviour
     {
         if (playerInRange && !collected && Input.GetKeyDown(KeyCode.E))
         {
+            
             collected = true;
             // PlayerData.partsCollectedAmount += 1;
             PlayerData.partsCollected.Add(collectableID);
-            playerData.CreateOrWritePlayerFile();
+            playerInv.AddItem(Item.GetItemByID(collectableID + 1)); // because 0 is the hp potion thing
+            playerData.CreateOrWritePlayerFile_Collectables();
             // Debug.Log("Collected amount: " + PlayerData.partsCollectedAmount + ". List: " + PlayerData.partsCollected);
             Debug.Log("Collected List: " + PlayerData.partsCollected);
         }

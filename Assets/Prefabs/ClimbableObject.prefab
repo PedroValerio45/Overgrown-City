@@ -12,9 +12,9 @@ GameObject:
   - component: {fileID: 4792947032503762927}
   - component: {fileID: 6415207066860626410}
   - component: {fileID: 5885091021298536327}
-  m_Layer: 0
+  m_Layer: 3
   m_Name: Object
-  m_TagString: Climb
+  m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -118,7 +118,7 @@ GameObject:
   - component: {fileID: 9125398598431976302}
   m_Layer: 0
   m_Name: ClimbableObject
-  m_TagString: Untagged
+  m_TagString: Climb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -151,6 +151,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0de938ad43895747906960e9abbae15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Player: {fileID: 0}
+  playerIsClimbing: 0
 --- !u!65 &9125398598431976302
 BoxCollider:
   m_ObjectHideFlags: 0

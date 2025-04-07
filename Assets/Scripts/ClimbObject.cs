@@ -7,12 +7,20 @@ public class ClimbObject : MonoBehaviour
     public GameObject Player;
     
     private bool playerInRange;
+    public bool playerIsClimbing;
     
     void Update()
     {
         if (playerInRange && Input.GetKey(KeyCode.E))
         {
-            Player.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 5f * Time.deltaTime, Player.transform.position.z);
+            playerIsClimbing = true;
+            // Player.transform.position = new Vector3(Player.transform.position.x, Player.transform.position.y + 5f * Time.deltaTime, Player.transform.position.z);
+            // Player.transform.position = Vector3.Lerp(Player.transform.position, Vector3.up, Time.deltaTime);
+            // Player.velocity = new Vector3(Player.velocity.x, verticalInput * climbSpeed, rb.velocity.z);
+        }
+        else
+        {
+                playerIsClimbing = false;
         }
     }
     void OnTriggerEnter(Collider other)

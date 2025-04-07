@@ -16,14 +16,17 @@ public class PlayerMovement : MonoBehaviour
     float groundYOffset;
     public LayerMask groundMask;
     Vector3 spherePos;
-
+    
+    public bool playerIsClimbing;
+    [SerializeField] public float climbSpeed;   
+    
     [SerializeField] public float gravity;
     [SerializeField] public float jumpForce;
     [SerializeField] public float moveSpeed;
     [SerializeField] public float maxWalkSpeed;
     [SerializeField] public float maxFallSpeed;
     private bool isGrounded;
-    private bool jumped;
+    // private bool jumped;
     [SerializeField] Vector3 velocity;
     [SerializeField] Vector3 finalPlayerMotion;
     
@@ -42,13 +45,13 @@ public class PlayerMovement : MonoBehaviour
         velocity = Vector3.zero;
     }
 
-    void Update()
+    /* void Update()
     {
         if (Input.GetButtonDown("Jump") && isGrounded)
         {
             jumped = true;
         }
-    }
+    } */
 
     void FixedUpdate()
     {
@@ -56,7 +59,7 @@ public class PlayerMovement : MonoBehaviour
         // PlayerJump();
         // CalculatePlayerMotion();
         GetDirectionAndMove();
-        GravityAndJump();
+        VerticalMovement();
     }
 
     /* void PlayerMove()
@@ -134,9 +137,13 @@ public class PlayerMovement : MonoBehaviour
         return Physics.CheckSphere(spherePos, controller.radius, groundMask);
     }
 
-    void GravityAndJump()
+    void VerticalMovement()
     {
-        if (!IsGrounded())
+        if (playerIsClimbing)
+        {
+            velocity.y = climbSpeed * Time.fixedDeltaTime;
+        }
+        else if (!IsGrounded())
         {
             velocity.y += gravity * Time.fixedDeltaTime;
             // Debug.Log("Not Grounded");
@@ -156,6 +163,28 @@ public class PlayerMovement : MonoBehaviour
         }
         
         controller.Move(velocity * Time.fixedDeltaTime);
+    }
+
+    void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Climb") && Input.GetButton("Climb"))
+        {
+            playerIsClimbing = true;
+            Debug.Log("Player IN range of climbable object");
+        }
+        else
+        {
+            playerIsClimbing = false;
+        }
+    }
+
+    void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Climb"))
+        {
+            playerIsClimbing = false;
+            Debug.Log("Player IN range of climbable object");
+        }
     }
 
     private void OnDrawGizmos()
