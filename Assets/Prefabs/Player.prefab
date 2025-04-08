@@ -188,6 +188,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7de60f3c754d469a8bcc2723b2b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  uiScript: {fileID: 6973750201152810939, guid: 43f070d84ece4a34381932a5a570b066,
+    type: 3}
 --- !u!114 &5798106537057029009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -213,7 +215,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b0de938ad43895747906960e9abbae15, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  Player: {fileID: 0}
+  Player: {fileID: 6222387388658134336}
   playerIsClimbing: 0
 --- !u!1 &7672995159153806068
 GameObject:

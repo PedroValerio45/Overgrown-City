@@ -1,3 +1,4 @@
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.IO;
@@ -8,6 +9,9 @@ public class PlayerData : MonoBehaviour
 {
     // STUFF IN THIS SCENE IS TO BE SAVES BETWEEN SCENES
 
+    // this has to be added in all unity scenes that are relevant!
+    public UI uiScript;
+
     // Amount of boat parts collected (will prob go unused)
     // public static int partsCollectedAmount = 0;
     
@@ -15,9 +19,32 @@ public class PlayerData : MonoBehaviour
     public static List<int> partsCollected = new List<int>();
     
     // PLAYER STATS
-    [SerializeField] public static int playerHP = 4;
+    public static int playerMaxHP = 4;
+    public static int playerHP = 4;
     public static string playerAura = "3000 gazillions";
-    
+
+    void Start()
+    {
+        uiScript.SetMaxHealth(playerMaxHP);
+        uiScript.SetHealth(playerHP);
+        Debug.Log(playerMaxHP);
+    }
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.P))
+        {
+            playerHP += 1;
+            uiScript.SetHealth(playerHP);
+            Debug.Log(playerHP);
+        }
+        else if (Input.GetKeyDown(KeyCode.O))
+        {
+            playerHP -= 1;
+            uiScript.SetHealth(playerHP);
+            Debug.Log(playerHP);
+        }
+    }
+
     // PLAYER COLLECTABLES
     public void CreateOrWritePlayerFile_Collectables()
     {
