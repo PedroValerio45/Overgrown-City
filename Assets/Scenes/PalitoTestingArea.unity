@@ -2093,6 +2093,11 @@ PrefabInstance:
     serializedVersion: 3
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 2959197156237862309, guid: 72f0673ad9bcd21418f22fe6452cfde0,
+        type: 3}
+      propertyPath: m_Enabled
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 3028046537720273969, guid: 72f0673ad9bcd21418f22fe6452cfde0,
         type: 3}
       propertyPath: m_Name
@@ -2225,21 +2230,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: ClimbableObject
-      objectReference: {fileID: 0}
-    - target: {fileID: 9125398598431976302, guid: 36f90370ddf95c549b50087a4e37be61,
-        type: 3}
-      propertyPath: m_Size.x
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 9125398598431976302, guid: 36f90370ddf95c549b50087a4e37be61,
-        type: 3}
-      propertyPath: m_Size.y
-      value: 10.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9125398598431976302, guid: 36f90370ddf95c549b50087a4e37be61,
-        type: 3}
-      propertyPath: m_Size.z
-      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 9125398598431976302, guid: 36f90370ddf95c549b50087a4e37be61,
         type: 3}
