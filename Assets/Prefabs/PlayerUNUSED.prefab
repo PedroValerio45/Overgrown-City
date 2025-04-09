@@ -99,7 +99,7 @@ GameObject:
   - component: {fileID: 5798106537057029009}
   - component: {fileID: 5340829333723902170}
   m_Layer: 0
-  m_Name: Player
+  m_Name: PlayerUNUSED
   m_TagString: Player
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -162,11 +162,12 @@ MonoBehaviour:
   direction: {x: 0, y: 0, z: 0}
   controller: {fileID: 8784352213962217244}
   freelookCamera: {fileID: 0}
+  cameraTransform: {fileID: 0}
   groundMask:
     serializedVersion: 2
     m_Bits: 8
   playerIsClimbing: 0
-  climbSpeed: 0
+  climbSpeed: 10
   gravity: -20
   jumpForce: 60
   moveSpeed: 12
@@ -202,7 +203,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90c9df5f6bc46f4e8c8dc88aaf68a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  playerData: {fileID: 3104577329677184069}
+  uiScript: {fileID: 0}
   inventorySize: 10
+  healthPotionAmount: 0
+  healthPotionRegenAmount: 2
 --- !u!114 &5340829333723902170
 MonoBehaviour:
   m_ObjectHideFlags: 0

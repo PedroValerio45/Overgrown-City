@@ -6,12 +6,13 @@ using UnityEngine;
 
 public class PlayerMovement : MonoBehaviour
 {
-    public Vector3 direction;
+    public Vector3 direction = Vector3.zero.normalized;
     private Quaternion rotation;
     float hzInput;
     float vInput;
     [SerializeField] CharacterController controller;
     [SerializeField] CinemachineFreeLook freelookCamera;
+    public Transform cameraTransform;
     
     float groundYOffset;
     public LayerMask groundMask;
@@ -33,6 +34,9 @@ public class PlayerMovement : MonoBehaviour
     Vector3 moveVelocity = Vector3.zero;
     [SerializeField] private float acceleration = 10f;
     [SerializeField] private float deceleration = 20f;
+    
+    private Vector3 currentDirection;
+    private float currentSpeed;
 
     void Start()
     {
@@ -112,7 +116,7 @@ public class PlayerMovement : MonoBehaviour
         Vector3 inputDirection = new Vector3(hzInput, 0, vInput).normalized;
         direction = rotation * inputDirection;
 
-        if (direction.magnitude > 0.05f)
+        /* if (direction.magnitude > 0.05f)
         {
             moveVelocity = Vector3.Lerp(moveVelocity, direction * moveSpeed, Time.fixedDeltaTime * acceleration);
         }
@@ -127,7 +131,30 @@ public class PlayerMovement : MonoBehaviour
         {
             Quaternion targetRotation = Quaternion.LookRotation(direction);
             transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.fixedDeltaTime * 10f);
+        } */
+        
+        // Move in relation to camera
+        if (direction.magnitude >= 0.1f)
+        {
+            Vector3 camForward = cameraTransform.forward;
+            camForward.y = 0;
+            camForward.Normalize();
+            Vector3 camRight = cameraTransform.right;
+            camRight.y = 0;
+            camRight.Normalize();
+
+            Vector3 targetDir = camForward * direction.z + camRight * direction.x;
+            currentDirection = Vector3.Lerp(currentDirection, targetDir, acceleration * Time.deltaTime);
+            currentSpeed = Mathf.Lerp(currentSpeed, moveSpeed, acceleration * Time.deltaTime);
         }
+        else
+        {
+            currentSpeed = Mathf.Lerp(currentSpeed, 0, deceleration * Time.deltaTime);
+        }
+
+        Vector3 move = currentDirection * currentSpeed;
+
+        controller.Move((move + velocity) * Time.deltaTime);
     }
     
     bool IsGrounded()

@@ -10,9 +10,9 @@ public class PlayerData : MonoBehaviour
     // STUFF IN THIS SCENE IS TO BE SAVES BETWEEN SCENES
 
     // this has to be added in all unity scenes that are relevant!
-    public UI uiScript;
+    public UIHealth uiHealth;
 
-    // Amount of boat parts collected (will prob go unused)
+    // Amount of boat parts collected (will prob go unused)s
     // public static int partsCollectedAmount = 0;
     
     // List of boat parts collected
@@ -22,27 +22,15 @@ public class PlayerData : MonoBehaviour
     public static int playerMaxHP = 4;
     public static int playerHP = 4;
     public static string playerAura = "3000 gazillions";
+    
+    // Cheats ig
+    public static bool isCheating = false;
 
     void Start()
     {
-        uiScript.SetMaxHealth(playerMaxHP);
-        uiScript.SetHealth(playerHP);
+        uiHealth.SetMaxHealth(playerMaxHP);
+        uiHealth.SetHealth(playerHP);
         Debug.Log(playerMaxHP);
-    }
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.P))
-        {
-            playerHP += 1;
-            uiScript.SetHealth(playerHP);
-            Debug.Log(playerHP);
-        }
-        else if (Input.GetKeyDown(KeyCode.O))
-        {
-            playerHP -= 1;
-            uiScript.SetHealth(playerHP);
-            Debug.Log(playerHP);
-        }
     }
 
     // PLAYER COLLECTABLES
