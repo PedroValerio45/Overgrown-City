@@ -11,6 +11,8 @@ public class PlayerData : MonoBehaviour
 
     // this has to be added in all unity scenes that are relevant!
     public UIHealth uiHealth;
+    private float playerDamageCooldown = 1f; // Cooldown Amount (Max)
+    private float playerDamageCooldownTimer; // Cooldown Countdown Timer (Min = 0)
 
     // Amount of boat parts collected (will prob go unused)s
     // public static int partsCollectedAmount = 0;
@@ -18,22 +20,44 @@ public class PlayerData : MonoBehaviour
     // List of boat parts collected
     public static List<int> partsCollected = new List<int>();
     
-    // PLAYER STATS
-    public static int playerMaxHP = 4;
-    public static int playerHP = 4;
-    public static string playerAura = "3000 gazillions";
-    
     // Cheats ig
     public static bool isCheating = false;
 
     void Start()
     {
-        uiHealth.SetMaxHealth(playerMaxHP);
-        uiHealth.SetHealth(playerHP);
-        Debug.Log(playerMaxHP);
+        if (uiHealth == null) { Debug.Log("UI Health null"); }
+        else { Debug.Log(" is literally present in playerData too"); }
+        
+        // uiHealth = GameObject.Find("UIHealth").GetComponent<UIHealth>();
+        
+        uiHealth.SetMaxHealth(PlayerStats.playerMaxHP);
+        uiHealth.SetHealth(PlayerStats.playerHP);
+        Debug.Log(PlayerStats.playerMaxHP);
     }
 
-    // PLAYER COLLECTABLES
+    void Update()
+    {
+        if (playerDamageCooldownTimer > 0) { playerDamageCooldownTimer -= Time.deltaTime; }
+        else if (playerDamageCooldownTimer < 0) { playerDamageCooldownTimer = 0; }
+    }
+
+    public void ChangeCurrentHP(int amount)
+    {
+        /* if (uiHealth == null)
+        {
+            Debug.LogError("uiHealth is NOT assigned in PlayerData!");
+            return;
+        } */
+        
+        if (playerDamageCooldownTimer <= 0)
+        {
+            PlayerStats.playerHP += amount;
+            uiHealth.SetHealth(PlayerStats.playerHP);
+            playerDamageCooldownTimer = playerDamageCooldown;
+        }
+    }
+
+    // PLAYER COLLECTABLES FILE
     public void CreateOrWritePlayerFile_Collectables()
     {
         string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
@@ -76,6 +100,7 @@ public class PlayerData : MonoBehaviour
         return partsCollected;
     }
     
+    // PLAYER HEALTH FILE
     public void CreateOrWritePlayerFile_Health()
     {
         string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
@@ -117,4 +142,11 @@ public class PlayerData : MonoBehaviour
 
         return partsCollected;
     }
+}
+
+public class PlayerStats
+{
+    public static int playerMaxHP = 4;
+    public static int playerHP = 4;
+    public static string playerAura = "3000 gazillions";
 }

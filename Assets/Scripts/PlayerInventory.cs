@@ -38,13 +38,13 @@ public class PlayerInventory : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.R) && healthPotionAmount > 0)
         {
             healthPotionAmount--;
-            PlayerData.playerHP += healthPotionAmount;
-            if (PlayerData.playerHP > PlayerData.playerMaxHP && !PlayerData.isCheating)
+            PlayerStats.playerHP += healthPotionAmount;
+            if (PlayerStats.playerHP > PlayerStats.playerMaxHP && !PlayerData.isCheating)
             {
-                PlayerData.playerHP = PlayerData.playerMaxHP;
+                PlayerStats.playerHP = PlayerStats.playerMaxHP;
             }
             
-            uiHealth.SetHealth(PlayerData.playerHP);
+            uiHealth.SetHealth(PlayerStats.playerHP);
             uiPotions.SetCounterText(healthPotionAmount);
         }
     }
@@ -102,29 +102,25 @@ public class PlayerInventory : MonoBehaviour
         // CHEATER CHEATER RAHHHH
         if (Input.GetKeyDown(KeyCode.O))
         {
-            PlayerData.playerHP += 1;
-            uiHealth.SetHealth(PlayerData.playerHP);
-            Debug.Log("Cheat: +1 HP. Current HP: " + PlayerData.playerHP);
+            playerData.ChangeCurrentHP(1);
+            Debug.Log("Cheat: +1 HP. Current HP: " + PlayerStats.playerHP);
         }
         else if (Input.GetKeyDown(KeyCode.I))
         {
-            PlayerData.playerHP -= 1;
-            uiHealth.SetHealth(PlayerData.playerHP);
-            Debug.Log("Cheat: -1 HP. Current HP: " + PlayerData.playerHP);
+            playerData.ChangeCurrentHP(-1);
+            Debug.Log("Cheat: -1 HP. Current HP: " + PlayerStats.playerHP);
         }
         else if (Input.GetKeyDown(KeyCode.L))
         {
             PlayerData.isCheating = true;
-            PlayerData.playerHP = 999;
-            uiHealth.SetHealth(PlayerData.playerHP);
-            Debug.Log("Cheat: 999 HP. Current HP: " + PlayerData.playerHP);
+            PlayerStats.playerHP = 999;
+            Debug.Log("Cheat: 999 HP. Current HP: " + PlayerStats.playerHP);
         }
         else if (Input.GetKeyDown(KeyCode.K))
         {
             PlayerData.isCheating = false;
-            PlayerData.playerHP = 1;
-            uiHealth.SetHealth(PlayerData.playerHP);
-            Debug.Log("Cheat: 1 HP. Current HP: " + PlayerData.playerHP);
+            PlayerStats.playerHP = 1;
+            Debug.Log("Cheat: 1 HP. Current HP: " + PlayerStats.playerHP);
         }
         else if (Input.GetKeyDown(KeyCode.P))
         {

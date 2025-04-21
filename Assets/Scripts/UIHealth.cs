@@ -5,11 +5,16 @@ using UnityEngine.UI;
 
 public class UIHealth : MonoBehaviour
 {
+    // EVERYTHING HERE IS TO CHANGE THE HP UI GRAPHIC
     public Slider healthSlider;
 
-    /* void Awake()
+    /* void Start()
     {
         healthSlider = GetComponentInChildren<Slider>();
+        healthSlider = GameObject.Find("HealthBar").GetComponent<Slider>();
+
+        if (healthSlider == null) { Debug.Log("why is this so fucking difficult"); }
+        else { Debug.Log("health slider present in ui health"); }
     } */
     
     public void SetMaxHealth(int health)
