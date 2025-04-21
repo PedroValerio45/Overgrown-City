@@ -43,11 +43,11 @@ public class PlayerData : MonoBehaviour
 
     public void ChangeCurrentHP(int amount)
     {
-        /* if (uiHealth == null)
+        if (uiHealth == null)
         {
             Debug.LogError("uiHealth is NOT assigned in PlayerData!");
             return;
-        } */
+        }
         
         if (playerDamageCooldownTimer <= 0)
         {
