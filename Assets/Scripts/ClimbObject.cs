@@ -20,7 +20,7 @@ public class ClimbObject : MonoBehaviour
         }
         else
         {
-                playerIsClimbing = false;
+            playerIsClimbing = false;
         }
     }
     void OnTriggerEnter(Collider other)

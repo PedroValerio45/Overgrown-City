@@ -10,10 +10,35 @@ public class CarnivorousPlant : MonoBehaviour
     public UIHealth uiHealth;
     public float attackTimerDEBUG;
     public float attackDelayDEBUG = 1f;
+    
+    private CharacterController cc;
+    private Vector3 knockbackVelocity;
+    private float knockbackDuration = 0.25f;
+    [SerializeField] private float knockbackTimer;
 
     private void Start()
     {
         attackTimerDEBUG = attackDelayDEBUG;
+        
+        // playerData = GetComponent<PlayerData>();
+        playerData = FindObjectOfType<PlayerData>();
+        cc = FindObjectOfType<CharacterController>();
+        
+        if (playerData == null) { Debug.LogError("Carnivorous Plant: No player data found"); }
+        if (cc == null) { Debug.LogError("Spiky Stem: No cc found"); }
+    }
+    
+    void Update()
+    {
+        if (knockbackTimer > 0)
+        {
+            float t = knockbackTimer / knockbackDuration;
+            float easedT = Mathf.SmoothStep(0, 1, t); // 0 = no force, 1 = full force
+            Vector3 easedVelocity = knockbackVelocity * easedT;
+            cc.Move(easedVelocity * Time.deltaTime);
+
+            knockbackTimer -= Time.deltaTime;
+        }
     }
 
     private void OnTriggerEnter(Collider other)
@@ -21,7 +46,7 @@ public class CarnivorousPlant : MonoBehaviour
         Debug.Log("player IN plant range: " + other.gameObject.name);
     }
     
-    private void OnTriggerStay(Collider other)
+    /* private void OnTriggerStay(Collider other)
     {
         if (other.CompareTag("Player"))
         {
@@ -37,7 +62,31 @@ public class CarnivorousPlant : MonoBehaviour
 
                 playerData.ChangeCurrentHP(-1);
             
-                Debug.Log("CarnivorousPlant attacked player, Current HP: " + PlayerStats.playerHP);
+                Debug.Log("CarnivorousPlant attacked player, Current HP: " + playerData.playerHP);
+            }
+        }
+    } */
+    
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            CharacterController playerCC = other.GetComponent<CharacterController>();
+            if (attackTimerDEBUG > 0)
+            {
+                attackTimerDEBUG -= Time.deltaTime;
+            }
+            else
+            {
+                if (knockbackTimer <= 0)
+                {
+                    Vector3 direction = (other.transform.position - transform.position).normalized;
+                    ApplyKnockback(direction, 50f, 0.25f);
+                }
+
+                playerData.ChangeCurrentHP(-1);
+            
+                Debug.Log("CarnivorousPlant attacked player, Current HP: " + playerData.playerHP);
             }
         }
     }
@@ -49,5 +98,12 @@ public class CarnivorousPlant : MonoBehaviour
             attackTimerDEBUG = attackDelayDEBUG;
             Debug.Log("player OUT of plant range: " + other.gameObject.name);
         }
+    }
+    
+    public void ApplyKnockback(Vector3 direction, float force, float duration)
+    {
+        knockbackVelocity = direction.normalized * force;
+        knockbackDuration = duration;
+        knockbackTimer = duration;
     }
 }

@@ -4,8 +4,8 @@ using UnityEngine;
 public class ThirdPersonMovement : MonoBehaviour
 {
     public Transform characterModel;
-
-    public Transform cameraTransform;
+    
+    public Transform cameraTransform; // MAIN CAMERA OF EACH SCENE (NEEDS TO BE MANUALLY ASSIGNED)
     public float speed = 12f;
     public float acceleration = 10f;
     public float deceleration = 8f;
@@ -27,6 +27,9 @@ public class ThirdPersonMovement : MonoBehaviour
     void Start()
     {
         controller = GetComponent<CharacterController>();
+        
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()

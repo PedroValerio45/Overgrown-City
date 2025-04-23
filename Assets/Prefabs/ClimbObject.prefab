@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 6415207066860626410}
   - component: {fileID: 5885091021298536327}
   m_Layer: 3
-  m_Name: Object
+  m_Name: ClimbModel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -114,10 +114,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 77307757889819556}
-  - component: {fileID: 2354916317327428430}
   - component: {fileID: 9125398598431976302}
   m_Layer: 0
-  m_Name: ClimbableObject
+  m_Name: ClimbObject
   m_TagString: Climb
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -139,20 +138,6 @@ Transform:
   - {fileID: 628351582296193485}
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2354916317327428430
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8393146801045523996}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b0de938ad43895747906960e9abbae15, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  Player: {fileID: 0}
-  playerIsClimbing: 0
 --- !u!65 &9125398598431976302
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -172,5 +157,5 @@ BoxCollider:
   m_ProvidesContacts: 0
   m_Enabled: 1
   serializedVersion: 3
-  m_Size: {x: 1.5, y: 10.5, z: 1.5}
+  m_Size: {x: 1.5, y: 13.5, z: 1.5}
   m_Center: {x: 0, y: 0, z: 0}

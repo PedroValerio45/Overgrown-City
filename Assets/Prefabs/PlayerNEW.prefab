@@ -98,6 +98,7 @@ GameObject:
   - component: {fileID: 5798106537057029009}
   - component: {fileID: 5340829333723902170}
   - component: {fileID: 225628453598096634}
+  - component: {fileID: 2776351961273044218}
   m_Layer: 0
   m_Name: PlayerNEW
   m_TagString: Player
@@ -161,6 +162,8 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   uiHealth: {fileID: 8572407136991970830, guid: 43f070d84ece4a34381932a5a570b066,
     type: 3}
+  playerDamageCooldownTimer: 0
+  playerHP: 4
 --- !u!114 &5798106537057029009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -215,6 +218,18 @@ MonoBehaviour:
   gravity: -20
   isClimbing: 0
   climbSpeed: 250
+--- !u!114 &2776351961273044218
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6222387388658134336}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fc18a156e6e885f49a5c9bbcee44a940, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7672995159153806068
 GameObject:
   m_ObjectHideFlags: 0

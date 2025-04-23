@@ -4,6 +4,8 @@ using Cinemachine;
 using Unity.VisualScripting;
 using UnityEngine;
 
+// THIS IS UNUSED --------------------------------------------------------------------------------------------
+
 public class PlayerMovement : MonoBehaviour
 {
     public Vector3 direction = Vector3.zero.normalized;

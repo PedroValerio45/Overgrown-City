@@ -118,6 +118,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: aeb0bb5fcc9de1c49b1e82ebf95c4cd4, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiHealth: {fileID: 0}
   playerData: {fileID: 3104577329677184069, guid: 534568f383af1e644ba2e990599c2bf0,
     type: 3}
+  knockbackVelocity: {x: 0, y: 0, z: 0}
+  knockbackDuration: 0.3
+  knockbackTimer: 0

@@ -17,35 +17,43 @@ public class PlayerInventory : MonoBehaviour
 
     private void Start()
     {
+        // playerData = GetComponent<PlayerData>();
+        playerData = FindObjectOfType<PlayerData>();
+        if (playerData == null) { Debug.LogError("Player Inventory: No player data found"); }
+        
         // Initialize empty slots
         for (int i = 0; i < inventorySize; i++)
         {
             playerInv.Add(null);
         }
-        
-        uiPotions.SetCounterText(healthPotionAmount);
     }
 
     private void Update()
     {
         HealPlayer();
-
-        Cheats();
+        
+        uiPotions.SetCounterText(healthPotionAmount); // Here is the only place the UI element for the hp potions updates
     }
 
     private void HealPlayer()
     {
         if (Input.GetKeyDown(KeyCode.R) && healthPotionAmount > 0)
         {
-            healthPotionAmount--;
-            PlayerStats.playerHP += healthPotionAmount;
-            if (PlayerStats.playerHP > PlayerStats.playerMaxHP && !PlayerData.isCheating)
+            if (playerData.playerHP < PlayerData.playerMaxHP)
             {
-                PlayerStats.playerHP = PlayerStats.playerMaxHP;
+                healthPotionAmount--;
+                playerData.playerHP += healthPotionAmount;
+                if (playerData.playerHP > PlayerData.playerMaxHP && !PlayerData.isCheating)
+                {
+                    playerData.playerHP = PlayerData.playerMaxHP;
+                }
+                
+                Debug.Log("Healed player, current HP: " + playerData.playerHP);
             }
-            
-            uiHealth.SetHealth(PlayerStats.playerHP);
-            uiPotions.SetCounterText(healthPotionAmount);
+            else
+            {
+                Debug.Log("Player HP is full: " + playerData.playerHP);
+            }
         }
     }
 
@@ -95,39 +103,6 @@ public class PlayerInventory : MonoBehaviour
         }
 
         Debug.Log("=================");
-    }
-
-    private void Cheats()
-    {
-        // CHEATER CHEATER RAHHHH
-        if (Input.GetKeyDown(KeyCode.O))
-        {
-            playerData.ChangeCurrentHP(1);
-            Debug.Log("Cheat: +1 HP. Current HP: " + PlayerStats.playerHP);
-        }
-        else if (Input.GetKeyDown(KeyCode.I))
-        {
-            playerData.ChangeCurrentHP(-1);
-            Debug.Log("Cheat: -1 HP. Current HP: " + PlayerStats.playerHP);
-        }
-        else if (Input.GetKeyDown(KeyCode.L))
-        {
-            PlayerData.isCheating = true;
-            PlayerStats.playerHP = 999;
-            Debug.Log("Cheat: 999 HP. Current HP: " + PlayerStats.playerHP);
-        }
-        else if (Input.GetKeyDown(KeyCode.K))
-        {
-            PlayerData.isCheating = false;
-            PlayerStats.playerHP = 1;
-            Debug.Log("Cheat: 1 HP. Current HP: " + PlayerStats.playerHP);
-        }
-        else if (Input.GetKeyDown(KeyCode.P))
-        {
-            healthPotionAmount += 1;
-            uiPotions.SetCounterText(healthPotionAmount);
-            Debug.Log("Cheat: +1 Potions. Current Potion Amount: " + healthPotionAmount);
-        }
     }
 }
 
