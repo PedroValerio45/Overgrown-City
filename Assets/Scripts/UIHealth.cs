@@ -22,7 +22,6 @@ public class UIHealth : MonoBehaviour
         if (playerData == null) { Debug.LogError("UI Health: No player data found"); }
         
         SetMaxHealth(PlayerData.playerMaxHP);
-        // SetHealth(playerData.playerHP);
         
         Debug.Log("Current player HP: " + PlayerData.playerMaxHP);
     }
