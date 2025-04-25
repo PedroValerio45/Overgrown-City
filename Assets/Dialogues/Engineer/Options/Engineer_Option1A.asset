@@ -1,0 +1,19 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b036321d7643543831b8ff4156e1ad, type: 3}
+  m_Name: Engineer_Option1A
+  m_EditorClassIdentifier: 
+  DialogueOptionText: I need help building a boat.
+  NextDialoguePossibilities:
+  - {fileID: 11400000, guid: 31b2df7df43d5d34a8cb4e519d2ab39f, type: 2}
+  - {fileID: 11400000, guid: 7f6cface048362043889f634616f66d8, type: 2}
+  optionID: 0

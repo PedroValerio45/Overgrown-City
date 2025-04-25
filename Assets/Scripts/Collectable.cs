@@ -13,7 +13,7 @@ public class Collectable : MonoBehaviour
     bool collected = false;
     bool playerInRange = false;
     
-    private void Start()
+    private void Awake()
     {
         playerData = player.GetComponent<PlayerData>();
         playerInv = player.GetComponent<PlayerInventory>();
@@ -49,7 +49,8 @@ public class Collectable : MonoBehaviour
             
             collected = true;
             // PlayerData.partsCollectedAmount += 1;
-            PlayerData.partsCollected.Add(collectableID);
+            //PlayerData.partsCollected.Add(collectableID);
+            playerData.CollectPart(collectableID);
             playerInv.AddItem(Item.GetItemByID(collectableID + 1)); // because 0 is the hp potion thing
             playerData.CreateOrWritePlayerFile_Collectables();
             // Debug.Log("Collected amount: " + PlayerData.partsCollectedAmount + ". List: " + PlayerData.partsCollected);

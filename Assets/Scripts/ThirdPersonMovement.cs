@@ -24,12 +24,15 @@ public class ThirdPersonMovement : MonoBehaviour
     private bool isGrounded;
     private float verticalVelocity;
 
+    private bool isFrozen = false;
+    private Transform lookTarget;
+
     void Start()
     {
         controller = GetComponent<CharacterController>();
         
-        Cursor.visible = false;
-        Cursor.lockState = CursorLockMode.Locked;
+        //Cursor.visible = false;
+        //Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
@@ -41,6 +44,12 @@ public class ThirdPersonMovement : MonoBehaviour
     }
     void FixedUpdate()
     {
+        if (isFrozen)
+        {
+            FaceLookTarget();
+            return;
+        }
+
         HorizontalMovementAndRotation();
         VerticalMovement();
     }
@@ -138,6 +147,35 @@ public class ThirdPersonMovement : MonoBehaviour
         {
             isClimbing = false;
             Debug.Log("Player OUT range of climbable object");
+        }
+    }
+
+    public void FreezePlayer(Transform target)
+    {
+        isFrozen = true;
+        lookTarget = target;
+        currentDirection = Vector3.zero;
+        currentSpeed = 0f;
+        velocity = Vector3.zero;
+    }
+
+    public void UnfreezePlayer()
+    {
+        isFrozen = false;
+        lookTarget = null;
+    }
+
+    private void FaceLookTarget()
+    {
+        if (lookTarget == null) return;
+
+        Vector3 directionToTarget = (lookTarget.position - transform.position).normalized;
+        directionToTarget.y = 0;
+
+        if (directionToTarget != Vector3.zero)
+        {
+            Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
+            characterModel.rotation = Quaternion.Slerp(characterModel.rotation, targetRotation, Time.deltaTime * 5f);
         }
     }
 }

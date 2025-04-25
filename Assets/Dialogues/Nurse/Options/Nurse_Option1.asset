@@ -1,0 +1,21 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b036321d7643543831b8ff4156e1ad, type: 3}
+  m_Name: Nurse_Option1
+  m_EditorClassIdentifier: 
+  DialogueOptionText: I need my medicine
+  NextDialoguePossibilities:
+  - {fileID: 11400000, guid: 90ac35b9d65fc534e9c08d30960b5ad4, type: 2}
+  - {fileID: 11400000, guid: 0205e0eb734e321478580c9f42e48560, type: 2}
+  - {fileID: 11400000, guid: 11cd9535a5676cc4fa777147546b2708, type: 2}
+  - {fileID: 11400000, guid: a08ed039920a5924194e855b26db4de8, type: 2}
+  optionID: 1

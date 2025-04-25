@@ -1,0 +1,20 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 06b036321d7643543831b8ff4156e1ad, type: 3}
+  m_Name: Engineer_Option1B
+  m_EditorClassIdentifier: 
+  DialogueOptionText: I've got the items.
+  NextDialoguePossibilities:
+  - {fileID: 11400000, guid: ecec5cf674e37b0428bc4a09f43181c3, type: 2}
+  - {fileID: 11400000, guid: d1d035b46c97bac4fbc4f84774915c1c, type: 2}
+  - {fileID: 11400000, guid: 25cc428c077bc60429f177598f9a4338, type: 2}
+  optionID: 1

@@ -7,56 +7,125 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    /*
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip text_sfx;
-    
+    //[SerializeField] private AudioSource audioSource;
+    //[SerializeField] private AudioClip text_sfx;
+
     [SerializeField] private GameObject Canvas;
     [SerializeField] private TMP_Text TextObject;
+    [SerializeField] private Transform ButtonContainer;
+    [SerializeField] private Button ButtonPrefab;
 
-    [SerializeField] private Button Button1;
-    [SerializeField] private Button Button2;
-    [SerializeField] private Button Button3;
+    [SerializeField] private PlayerData player;
+    [SerializeField] private NPC_Behaviour npc;
 
     [SerializeField] public float DialogueTextSpeed;
-    
-    public SO_Dialogue DebugDialog;
-    private SO_Dialogue CurrentDialogue;
 
+    private SO_Dialogue CurrentDialogue;
     private Action dialogueComplete;
     private bool isInputReceived;
+    private List<Button> activeButtons = new List<Button>();
+    private NPC_Behaviour activeNPC;
 
+    private Transform playerTransform;
+
+    private void Start()
+    {
+        if (npc.NPC_Dialogue_Roots == null)
+        {
+            Debug.LogError("No DebugDialog assigned!");
+        }
+
+        if (player == null)
+        {
+            player = FindObjectOfType<PlayerData>();
+        }
+
+        playerTransform = player.transform;
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.E) && Canvas.activeSelf == false)
+        {
+            NPC_Behaviour closestNPC = FindClosestNPC();
+
+            if (closestNPC != null && closestNPC.NPC_Dialogue_Roots != null)
+            {
+                activeNPC = closestNPC;
+                int rootIndex = closestNPC.DetermineRootDialogue();
+                if (rootIndex >= 0 && rootIndex < closestNPC.NPC_Dialogue_Roots.Length)
+                {
+                    StartDialogue(closestNPC.NPC_Dialogue_Roots[rootIndex], null);
+                }
+                else
+                {
+                    Debug.LogWarning("Invalid root dialogue index for " + closestNPC.npcName);
+                }
+            }
+        }
+    }
+    private NPC_Behaviour FindClosestNPC()
+    {
+        NPC_Behaviour[] allNPCs = FindObjectsOfType<NPC_Behaviour>();
+        NPC_Behaviour closestNPC = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (NPC_Behaviour npc in allNPCs)
+        {
+            float dist = Vector3.Distance(player.transform.position, npc.transform.position);
+            if (dist <= npc.interactionRadius && dist < closestDistance)
+            {
+                closestDistance = dist;
+                closestNPC = npc;
+            }
+        }
+
+        return closestNPC;
+    }
+
+    private Coroutine dialogueCoroutine;
     public void StartDialogue(SO_Dialogue DialogueToPlay, Action onDialogueComplete)
     {
+        if (dialogueCoroutine != null)
+        {
+            StopCoroutine(dialogueCoroutine);
+        }
+
+        if (player.TryGetComponent<ThirdPersonMovement>(out var movementScript))
+        {
+            movementScript.FreezePlayer(activeNPC.transform);
+        }
+
         CurrentDialogue = DialogueToPlay;
         dialogueComplete = onDialogueComplete;
-        StartCoroutine(PlayDialogue());
+
+        if (activeNPC != null)
+        {
+            activeNPC.StopMovement();
+            activeNPC.FaceTarget(playerTransform.position);
+        }
+
+        dialogueCoroutine = StartCoroutine(PlayDialogue());
     }
 
     private IEnumerator PlayDialogue()
     {
         Canvas.SetActive(true);
+        ClearButtons();
 
-        Button1.gameObject.SetActive(false);
-        Button2.gameObject.SetActive(false);
-        Button3.gameObject.SetActive(false);
-
-        for (int DialogueNumber = 0; DialogueNumber < CurrentDialogue.Dialogues.Length; ++DialogueNumber)
+        foreach (string dialogueLine in CurrentDialogue.Dialogues)
         {
             TextObject.text = "";
-            string CurrentDialogueString = CurrentDialogue.Dialogues[DialogueNumber];
 
-            for (int DialogueLetterIndex = 0; DialogueLetterIndex < CurrentDialogueString.Length; ++DialogueLetterIndex)
+            foreach (char letter in dialogueLine)
             {
-                audioSource.clip = text_sfx;
-                audioSource.Play();
-                
-                TextObject.text += CurrentDialogueString[DialogueLetterIndex];
+                //audioSource.clip = text_sfx;
+                //audioSource.Play();
+                TextObject.text += letter;
                 yield return new WaitForSeconds(DialogueTextSpeed);
             }
 
             isInputReceived = false;
-
             while (!isInputReceived)
             {
                 if (Input.GetKeyDown(KeyCode.E))
@@ -67,7 +136,7 @@ public class DialogueManager : MonoBehaviour
             }
         }
 
-        if (CurrentDialogue.DialogueOptions.Length >= 2 && Array.TrueForAll(CurrentDialogue.DialogueOptions, option => option != null))
+        if (CurrentDialogue.DialogueOptions.Length > 0)
         {
             ShowDialogueOptions();
         }
@@ -79,116 +148,61 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowDialogueOptions()
     {
-        Button1.gameObject.SetActive(true);
-        Button2.gameObject.SetActive(true);
-        Button3.gameObject.SetActive(true);
+        ClearButtons();
 
-        Button1.transform.GetChild(0).GetComponent<TMP_Text>().text = CurrentDialogue.DialogueOptions[0].DialogueOptionText;
-        Button2.transform.GetChild(0).GetComponent<TMP_Text>().text = CurrentDialogue.DialogueOptions[1].DialogueOptionText;
-        Button3.transform.GetChild(0).GetComponent<TMP_Text>().text = CurrentDialogue.DialogueOptions[2].DialogueOptionText;
+        for (int i = 0; i < CurrentDialogue.DialogueOptions.Length; i++)
+        {
+            DialogueOption option = CurrentDialogue.DialogueOptions[i];
+            Button newButton = Instantiate(ButtonPrefab, ButtonContainer);
+            newButton.transform.GetChild(0).GetComponent<TMP_Text>().text = option.DialogueOptionText;
 
-        Button1.onClick.AddListener(OnButton1Clicked);
-        Button2.onClick.AddListener(OnButton2Clicked);
-        Button3.onClick.AddListener(OnButton3Clicked);
+            DialogueOption capturedOption = option;
+            newButton.onClick.AddListener(() => OnOptionSelected(capturedOption));
+
+            activeButtons.Add(newButton);
+        }
+    }
+
+    private void OnOptionSelected(DialogueOption option)
+    {
+        ClearButtons();
+
+        if (option.NextDialoguePossibilities != null && option.NextDialoguePossibilities.Length == 1)
+        {
+            StartDialogue(option.NextDialoguePossibilities[0], dialogueComplete);
+            return;
+        }
+
+        int selectedIndex = activeNPC.DetermineNextDialogueThroughOption(option);
+
+        if (selectedIndex >= 0 && selectedIndex < option.NextDialoguePossibilities.Length)
+        {
+            StartDialogue(option.NextDialoguePossibilities[selectedIndex], dialogueComplete);
+        }
+        else
+        {
+            EndDialogue();
+        }
+    }
+
+    private void ClearButtons()
+    {
+        foreach (Button btn in activeButtons)
+        {
+            Destroy(btn.gameObject);
+        }
+        activeButtons.Clear();
     }
 
     private void EndDialogue()
     {
         Canvas.SetActive(false);
+        activeNPC?.ResumeMovement();
+        dialogueComplete?.Invoke();
 
-        if (dialogueComplete != null)
+        if (player.TryGetComponent<ThirdPersonMovement>(out var movementScript))
         {
-            dialogueComplete.Invoke();
+            movementScript.UnfreezePlayer();
         }
     }
-
-    private void OnButton1Clicked()
-    {
-        Button1.onClick.RemoveListener(OnButton1Clicked);
-        StartDialogueWithBranch(CurrentDialogue.DialogueOptions[0]);
-    }
-
-    private void OnButton2Clicked()
-    {
-        Button2.onClick.RemoveListener(OnButton2Clicked);
-        StartDialogueWithBranch(CurrentDialogue.DialogueOptions[1]);
-    }
-
-    private void OnButton3Clicked()
-    {
-        Button3.onClick.RemoveListener(OnButton3Clicked);
-        StartDialogueWithBranch(CurrentDialogue.DialogueOptions[2]);
-    }
-
-    private void StartDialogueWithBranch(DialogueOption option)
-    {
-        HideAndClearButtons();
-
-        SO_Dialogue nextDialogue = option.NextDialogue;
-
-        if (nextDialogue != null && nextDialogue.NextDialoguePossibilities.Length >= 2)
-        {
-            StartCoroutine(PlayRootDialogueAndBranch(nextDialogue));
-        }
-        else
-        {
-            StartDialogue(nextDialogue, dialogueComplete);
-        }
-    }
-
-    private void HideAndClearButtons()
-    {
-        Button1.gameObject.SetActive(false);
-        Button1.onClick.RemoveAllListeners();
-
-        Button2.gameObject.SetActive(false);
-        Button2.onClick.RemoveAllListeners();
-
-        Button3.gameObject.SetActive(false);
-        Button3.onClick.RemoveAllListeners();
-    }
-
-    private IEnumerator PlayRootDialogueAndBranch(SO_Dialogue nextDialogue)
-    {
-        yield return StartCoroutine(PlayDialogueFromRoot(nextDialogue));
-        HandleBranching(nextDialogue);
-    }
-
-    private IEnumerator PlayDialogueFromRoot(SO_Dialogue nextDialogue)
-    {
-        for (int i = 0; i < nextDialogue.Dialogues.Length; ++i)
-        {
-            TextObject.text = "";
-            string dialogueString = nextDialogue.Dialogues[i];
-
-            for (int j = 0; j < dialogueString.Length; ++j)
-            {
-                TextObject.text += dialogueString[j];
-                yield return new WaitForSeconds(0.05f);
-            }
-
-            isInputReceived = false;
-            while (!isInputReceived)
-            {
-                if (Input.GetKeyDown(KeyCode.E))
-                {
-                    isInputReceived = true;
-                }
-                yield return null;
-            }
-        }
-    }
-
-    private void HandleBranching(SO_Dialogue nextDialogue)
-    {
-        if (PlayerController.Instance.memoryCounter > 0)
-        {
-            StartDialogue(nextDialogue.NextDialoguePossibilities[0], dialogueComplete);
-            PlayerController.Instance.memoryCounter = 0;
-        }
-        else
-        {
-            StartDialogue(nextDialogue.NextDialoguePossibilities[1], dialogueComplete);
-        } 
-    }*/
 }

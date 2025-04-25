@@ -1,0 +1,22 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!114 &11400000
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 51cc9cf8a37f8d9478cae861be976f66, type: 3}
+  m_Name: Engineer_Root0
+  m_EditorClassIdentifier: 
+  Dialogues:
+  - '*huff*... *puff*...'
+  - Darn, standing around sure is difficult.
+  - Well, hello stanger! Name's Ford.
+  - Can I help you?
+  DialogueOptions:
+  - {fileID: 11400000, guid: 8585ba945968a6842945c59a27caf8bc, type: 2}
+  - {fileID: 11400000, guid: e344a99daf4d14e48a6dba0e7dc0a1ed, type: 2}
