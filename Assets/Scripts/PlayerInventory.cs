@@ -141,10 +141,11 @@ public class PlayerInventory : MonoBehaviour
     // Item list IDs start at 1 (id = 0 is considered null ig)
     public static Dictionary<int, Item> itemDatabase = new Dictionary<int, Item>()
     {
-        { 1, new Item("collectable0", "Collectable", 1) },
-        { 2, new Item("collectable1", "Collectable", 2) },
-        { 3, new Item("collectable2", "Collectable", 3) },
-        { 4, new Item("boatPart1", "BoatPart", 4) }
+        { 1, new Item("Gear", "Collectable", 1) },
+        { 2, new Item("Propeller", "Collectable", 2) },
+        { 3, new Item("Gasoline", "Collectable", 3) },
+        
+        { 4, new Item("Boat Motor", "BoatPart", 4) }
     };
 
     public static Item GetItemByID(int id)
