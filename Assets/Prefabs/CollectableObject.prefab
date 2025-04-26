@@ -122,9 +122,8 @@ MonoBehaviour:
   player: {fileID: 6222387388658134336, guid: d69a1f9f79845b74fa67f4f57d6e9cf5, type: 3}
   playerData: {fileID: 3104577329677184069, guid: d69a1f9f79845b74fa67f4f57d6e9cf5,
     type: 3}
-  playerInv: {fileID: 5798106537057029009, guid: d69a1f9f79845b74fa67f4f57d6e9cf5,
-    type: 3}
-  collectableID: 0
+  playerInventory: {fileID: 0}
+  collectableID: 1
 --- !u!95 &2333196935404183685
 Animator:
   serializedVersion: 5

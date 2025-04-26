@@ -236,7 +236,7 @@ MonoBehaviour:
   cc: {fileID: 1181656093815912623}
   rb: {fileID: 1663217376188851677}
   currentWaypoint: {fileID: 0}
-  moveSpeed: 0
+  moveSpeed: 10
   interactionRadius: 9
   npcID: 0
   npcName: Nurse

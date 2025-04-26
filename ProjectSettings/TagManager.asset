@@ -6,6 +6,7 @@ TagManager:
   tags:
   - NPC
   - Climb
+  - Enemy
   layers:
   - Default
   - TransparentFX

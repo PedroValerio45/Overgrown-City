@@ -189,8 +189,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7de60f3c754d469a8bcc2723b2b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  uiScript: {fileID: 6973750201152810939, guid: 43f070d84ece4a34381932a5a570b066,
-    type: 3}
+  uiHealth: {fileID: 0}
+  playerDamageCooldownTimer: 0
+  playerHP: 4
 --- !u!114 &5798106537057029009
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -204,8 +205,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerData: {fileID: 3104577329677184069}
-  uiScript: {fileID: 0}
-  inventorySize: 10
+  uiHealth: {fileID: 0}
+  uiPotions: {fileID: 0}
+  inventorySize: 3
+  playerInv: []
   healthPotionAmount: 0
   healthPotionRegenAmount: 2
 --- !u!114 &5340829333723902170

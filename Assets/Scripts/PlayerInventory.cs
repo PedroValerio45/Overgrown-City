@@ -9,28 +9,36 @@ public class PlayerInventory : MonoBehaviour
     public UIHealth uiHealth;
     public UIPotions uiPotions;
     
-    public int inventorySize = 10;
-    public static List<Item> playerInv = new List<Item>();
+    // public int inventorySize = 3;
+    public List<Item> playerInv = new List<Item>();
 
     [SerializeField] public int healthPotionAmount;
     public int healthPotionRegenAmount = 2;
 
-    private void Start()
+    private void Awake()
     {
-        // playerData = GetComponent<PlayerData>();
         playerData = FindObjectOfType<PlayerData>();
         if (playerData == null) { Debug.LogError("Player Inventory: No player data found"); }
         
         // Initialize empty slots
-        for (int i = 0; i < inventorySize; i++)
+        // for (int i = 0; i < inventorySize; i++) { playerInv.Add(null); }
+
+        // Fill the inventory based on partsCollected
+        foreach (int partID in PlayerData.partsCollected)
         {
-            playerInv.Add(null);
+            Item item = Item.GetItemByID(partID);
+            if (item != null)
+            {
+                AddItem(item);
+            }
         }
     }
 
     private void Update()
     {
         HealPlayer();
+
+        // LogInventory();
         
         uiPotions.SetCounterText(healthPotionAmount); // Here is the only place the UI element for the hp potions updates
     }
@@ -59,7 +67,9 @@ public class PlayerInventory : MonoBehaviour
 
     public bool AddItem(Item newItem)
     {
-        for (int i = 0; i < playerInv.Count; i++)
+        Debug.Log($"Attempting to add item: {newItem.itemName}. Current inventory count: {playerInv.Count}");
+        
+        /* for (int i = 0; i < playerInv.Count; i++)
         {
             if (playerInv[i] == null)
             {
@@ -68,11 +78,19 @@ public class PlayerInventory : MonoBehaviour
                 LogInventory();
                 return true;
             }
-        }
-
+        }*/ 
+        
+        Debug.Log($"Before adding: {playerInv.Count}");
+        playerInv.Add(newItem);
+        Debug.Log($"Added {newItem.itemName}");
+        Debug.Log($"After adding: {playerInv.Count}");
+        
+        return true;
+        
+        /* Debug.Log("Current Inventory Count (Add failure): " +  playerInv.Count);
         Debug.Log("Inventory full!");
         LogInventory();
-        return false;
+        return false; */
     }
 
     public void RemoveItem(int slotIndex)
@@ -101,12 +119,12 @@ public class PlayerInventory : MonoBehaviour
                 Debug.Log($"Slot {i}: [Empty]");
             }
         }
-
+        
         Debug.Log("=================");
     }
 }
 
-public class Item
+[Serializable] public class Item
 {
     public string itemName;
     public string itemType;
@@ -118,16 +136,14 @@ public class Item
         itemType = type;
         itemID = id;
     }
-    
+
     // ITEM LIST (HP Potions or whatever are unrelated to the inventory or item list
+    // Item list IDs start at 1 (id = 0 is considered null ig)
     public static Dictionary<int, Item> itemDatabase = new Dictionary<int, Item>()
     {
-        // { 0, new Item("Health Potion", "Nurse", 0) }, // unused
-        
         { 1, new Item("collectable0", "Collectable", 1) },
         { 2, new Item("collectable1", "Collectable", 2) },
         { 3, new Item("collectable2", "Collectable", 3) },
-        
         { 4, new Item("boatPart1", "BoatPart", 4) }
     };
 

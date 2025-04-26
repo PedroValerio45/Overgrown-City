@@ -22,10 +22,10 @@ public class PlayerData : MonoBehaviour
     public static bool hasFinishedQuest = false;
 
     // Amount of quest items collected
-    [SerializeField] public static int amountQuestItemsCollected = 0;
+    [SerializeField] public static int amountQuestItemsCollected;
     
     // List of boat parts collected
-    public static List<int> partsCollected = new List<int>();
+    [SerializeField] public static List<int> partsCollected = new List<int>();
     
     // Cheats ig
     public static bool isCheating = false;
@@ -33,7 +33,6 @@ public class PlayerData : MonoBehaviour
     void Start()
     {
         if (uiHealth == null) { Debug.Log("UI Health null"); }
-        // else { Debug.Log("UI Health is literally present in playerData too"); }
         
         // uiHealth = GameObject.Find("UIHealth").GetComponent<UIHealth>();
     }
@@ -69,7 +68,7 @@ public class PlayerData : MonoBehaviour
     // PLAYER COLLECTABLES FILE
     public void CreateOrWritePlayerFile_Collectables()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "playerCollectables.txt");
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
 
         try
         {
@@ -84,7 +83,7 @@ public class PlayerData : MonoBehaviour
 
     public List<int> ReadPlayerFile_Collectables()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "playerCollectables.txt");
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
 
         amountQuestItemsCollected = 0; // <-- RESET the counter
 
@@ -99,7 +98,7 @@ public class PlayerData : MonoBehaviour
                 if (int.TryParse(line, out int number))
                 {
                     partsCollected.Add(number);
-                    if (number < 3)
+                    if (number <= 3)
                     {
                         amountQuestItemsCollected++;
                     }
@@ -110,14 +109,14 @@ public class PlayerData : MonoBehaviour
         {
             print("File does not exist.");
         }
-
+        
         return partsCollected;
     }
 
     // PLAYER HEALTH FILE
     public void CreateOrWritePlayerFile_Health()
     {
-        string filePath = Path.Combine(Application.persistentDataPath, "playerCollectables.txt");
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
 
         try
         {
@@ -133,7 +132,7 @@ public class PlayerData : MonoBehaviour
     public List<int> ReadPlayerFile_Health()
     {
         // string fileName = "PlayerData.txt";
-        string filePath = Path.Combine(Application.persistentDataPath, "playerCollectables.txt");
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
 
         if (File.Exists(filePath))
         {
@@ -163,7 +162,7 @@ public class PlayerData : MonoBehaviour
         {
             partsCollected.Add(partID);
 
-            if (partID < 3)
+            if (partID <= 3)
             {
                 amountQuestItemsCollected += 1;
             }
@@ -174,5 +173,22 @@ public class PlayerData : MonoBehaviour
         {
             Debug.Log($"Part ID {partID} already collected.");
         }
+    }
+    
+    public void LogPartsCollected()
+    {
+        Debug.Log("=== Parts Collected ===");
+        if (partsCollected.Count == 0)
+        {
+            Debug.Log("No parts collected.");
+        }
+        else
+        {
+            foreach (int partID in partsCollected)
+            {
+                Debug.Log($"Part ID: {partID}");
+            }
+        }
+        Debug.Log("=======================");
     }
 }

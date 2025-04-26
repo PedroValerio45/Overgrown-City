@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class Cheats : MonoBehaviour
 {
@@ -54,7 +55,7 @@ public class Cheats : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad0))
         {
-            Application.LoadLevel(Application.loadedLevel); // Reset scene to test stuff like collectables
+            SceneManager.LoadScene(Application.loadedLevel); // Reset scene to test stuff like collectables
         }
     }
 }

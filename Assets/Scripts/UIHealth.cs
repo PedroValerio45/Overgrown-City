@@ -23,7 +23,7 @@ public class UIHealth : MonoBehaviour
         
         SetMaxHealth(PlayerData.playerMaxHP);
         
-        Debug.Log("Current player HP: " + PlayerData.playerMaxHP);
+        // Debug.Log("Current player HP: " + PlayerData.playerMaxHP);
     }
 
     void Update()
