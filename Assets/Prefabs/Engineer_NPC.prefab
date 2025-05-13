@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 4647206595832843127}
   - component: {fileID: 4179528916777238564}
   - component: {fileID: 7906889915370010383}
+  - component: {fileID: 8373599998003038462}
   m_Layer: 0
   m_Name: Engineer_NPC
   m_TagString: NPC
@@ -153,6 +154,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   cc: {fileID: 4647206595832843127}
   rb: {fileID: 4179528916777238564}
+  promptE: {fileID: 0}
   currentWaypoint: {fileID: 0}
   moveSpeed: 10
   interactionRadius: 9
@@ -165,6 +167,27 @@ MonoBehaviour:
   - {fileID: 11400000, guid: b7e318813174d224e912f5cc481778ee, type: 2}
   playerInv: {fileID: 0}
   playerData: {fileID: 0}
+--- !u!95 &8373599998003038462
+Animator:
+  serializedVersion: 5
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6418316188003132364}
+  m_Enabled: 1
+  m_Avatar: {fileID: 0}
+  m_Controller: {fileID: 0}
+  m_CullingMode: 0
+  m_UpdateMode: 0
+  m_ApplyRootMotion: 0
+  m_LinearVelocityBlending: 0
+  m_StabilizeFeet: 0
+  m_WarningMessage: 
+  m_HasTransformHierarchy: 1
+  m_AllowConstantClipSamplingOptimization: 1
+  m_KeepAnimatorStateOnDisable: 0
+  m_WriteDefaultValuesOnDisable: 0
 --- !u!1 &7995218251555792900
 GameObject:
   m_ObjectHideFlags: 0

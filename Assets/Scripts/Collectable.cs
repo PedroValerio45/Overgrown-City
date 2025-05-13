@@ -5,9 +5,11 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
-    public GameObject player;
+    // public GameObject player;
     public PlayerData playerData;
-    public PlayerInventory playerInventory;
+    // public PlayerInventory playerInventory;
+    public UIInventory uiInventory;
+    public promptE promptE;
     
     // THE COLLECTABLE ID CANNOT BE ZERO
     [SerializeField] public int collectableID;
@@ -16,8 +18,10 @@ public class Collectable : MonoBehaviour
     
     private void Awake()
     {
-        playerData = player.GetComponent<PlayerData>();
-        playerInventory = player.GetComponent<PlayerInventory>();
+        playerData = FindObjectOfType<PlayerData>();
+        // playerInventory = FindObjectOfType<PlayerInventory>();
+        uiInventory  = FindObjectOfType<UIInventory>();
+        promptE = FindObjectOfType<promptE>();
 
         PlayerData.partsCollected = playerData.ReadPlayerFile_Collectables();
         if (PlayerData.partsCollected.Contains(collectableID)) { collected = true; }
@@ -52,17 +56,23 @@ public class Collectable : MonoBehaviour
             collected = true;
             // PlayerData.partsCollectedAmount += 1;
             //PlayerData.partsCollected.Add(collectableID);
-            
+                
+            // playerInventory.AddItem(Item.GetItemByID(collectableID));
             playerData.CollectPart(collectableID);
-            
-            playerInventory.AddItem(Item.GetItemByID(collectableID));
-            
-            Debug.Log($"AFTER ADDING - inventory count: {playerInventory.playerInv.Count}");
+            // Debug.Log($"AFTER ADDING - inventory count: {playerInventory.playerInv.Count}");
             
             playerData.CreateOrWritePlayerFile_Collectables();
+            
+            uiInventory.SetItemInvSlotImage(0);
+            uiInventory.SetItemInvSlotImage(1);
+            uiInventory.SetItemInvSlotImage(2);
         }
-        
-        if (collected) { gameObject.SetActive(false); }
+
+        if (collected)
+        {
+            gameObject.SetActive(false);
+            promptE.PromptE_Disable();
+        }
         
         // Debug.Log($"Current inventory count: {playerInventory.playerInv.Count}");
     }
@@ -72,6 +82,7 @@ public class Collectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = true;
+            promptE.PromptE_Show();
             Debug.Log("Player IN range of collectable" + collectableID);
         }
     }
@@ -81,6 +92,7 @@ public class Collectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            promptE.PromptE_Disable();
             Debug.Log("Player OUT of range of collectable" + collectableID);
         }
     }

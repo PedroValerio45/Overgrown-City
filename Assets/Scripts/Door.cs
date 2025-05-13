@@ -3,6 +3,8 @@ using UnityEngine;
 
 public class Door : MonoBehaviour
 {
+    public promptE promptE;
+    
     private bool doorOpen;
     private bool isPlayerInRange;
 
@@ -12,6 +14,8 @@ public class Door : MonoBehaviour
     
     private void Start()
     {
+        promptE = FindObjectOfType<promptE>();
+        
         closedRotation = transform.rotation;
         openRotation = Quaternion.Euler(0, -90, 0);
     }
@@ -21,24 +25,6 @@ public class Door : MonoBehaviour
         if (Input.GetKeyDown(KeyCode.E) && !doorOpen &&  isPlayerInRange)
         {
             StartCoroutine(OpenDoor()); 
-        }
-    }
-
-    private void OnTriggerEnter(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInRange = true;
-            // Debug.Log("Player IN door range");
-        }
-    }
-
-    private void OnTriggerExit(Collider other)
-    {
-        if (other.CompareTag("Player"))
-        {
-            isPlayerInRange = false;
-            // Debug.Log("Player OUT OF door range");
         }
     }
 
@@ -54,5 +40,33 @@ public class Door : MonoBehaviour
         }
         
         Debug.Log("Door opened");
+    }
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = true;
+            Debug.Log("Player IN door range");
+        }
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            isPlayerInRange = false;
+            promptE.PromptE_Disable();
+            Debug.Log("Player OUT OF door range");
+        }
+    }
+
+    private void OnTriggerStay(Collider other)
+    {
+        if (other.CompareTag("Player"))
+        {
+            if (doorOpen) { promptE.PromptE_Disable(); }
+            else { promptE.PromptE_Show(); }
+        }
     }
 }

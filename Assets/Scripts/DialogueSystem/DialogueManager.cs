@@ -14,11 +14,15 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private TMP_Text TextObject;
     [SerializeField] private Transform ButtonContainer;
     [SerializeField] private Button ButtonPrefab;
+    public promptE promptE;
 
     [SerializeField] private PlayerData player;
     [SerializeField] private NPC_Behaviour npc;
 
     [SerializeField] public float DialogueTextSpeed;
+    
+    private bool isPromptEActive = false;
+    private bool inDialogue = false;
 
     private SO_Dialogue CurrentDialogue;
     private Action dialogueComplete;
@@ -30,6 +34,8 @@ public class DialogueManager : MonoBehaviour
 
     private void Start()
     {
+        promptE = FindObjectOfType<promptE>();
+        
         if (npc.NPC_Dialogue_Roots == null)
         {
             Debug.LogError("No DebugDialog assigned!");
@@ -55,6 +61,9 @@ public class DialogueManager : MonoBehaviour
                 int rootIndex = closestNPC.DetermineRootDialogue();
                 if (rootIndex >= 0 && rootIndex < closestNPC.NPC_Dialogue_Roots.Length)
                 {
+                    promptE.PromptE_Disable();
+                    isPromptEActive = false;
+                    inDialogue = true;
                     StartDialogue(closestNPC.NPC_Dialogue_Roots[rootIndex], null);
                 }
                 else
@@ -63,6 +72,8 @@ public class DialogueManager : MonoBehaviour
                 }
             }
         }
+
+        NPC_ControlPromptE();
     }
     private NPC_Behaviour FindClosestNPC()
     {
@@ -82,6 +93,24 @@ public class DialogueManager : MonoBehaviour
 
         return closestNPC;
     }
+    
+    private void NPC_ControlPromptE()
+    {
+        float distance = Vector3.Distance(player.transform.position, npc.transform.position);
+        bool withinRange = distance <= npc.interactionRadius;
+
+        if (withinRange && !isPromptEActive && !inDialogue)
+        {
+            promptE.PromptE_Show();
+            isPromptEActive = true;
+        }
+        else if (!withinRange && isPromptEActive)
+        {
+            promptE.PromptE_Disable();
+            isPromptEActive = false;
+        }
+    }
+
 
     private Coroutine dialogueCoroutine;
     public void StartDialogue(SO_Dialogue DialogueToPlay, Action onDialogueComplete)
@@ -148,6 +177,9 @@ public class DialogueManager : MonoBehaviour
 
     private void ShowDialogueOptions()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
         ClearButtons();
 
         for (int i = 0; i < CurrentDialogue.DialogueOptions.Length; i++)
@@ -165,6 +197,9 @@ public class DialogueManager : MonoBehaviour
 
     private void OnOptionSelected(DialogueOption option)
     {
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
+        
         ClearButtons();
 
         if (option.NextDialoguePossibilities != null && option.NextDialoguePossibilities.Length == 1)
@@ -196,6 +231,7 @@ public class DialogueManager : MonoBehaviour
 
     private void EndDialogue()
     {
+        inDialogue = false;
         Canvas.SetActive(false);
         activeNPC?.ResumeMovement();
         dialogueComplete?.Invoke();

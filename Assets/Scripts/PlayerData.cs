@@ -9,7 +9,6 @@ public class PlayerData : MonoBehaviour
 {
     // STUFF IN THIS SCENE IS TO BE SAVES BETWEEN SCENES
 
-    // this has to be added in all unity scenes that are relevant!
     public UIHealth uiHealth;
     private float playerDamageCooldown = 1f; // Cooldown Amount (Max)
     [SerializeField] private float playerDamageCooldownTimer; // Cooldown Countdown Timer (Min = 0)
@@ -33,6 +32,7 @@ public class PlayerData : MonoBehaviour
     void Start()
     {
         if (uiHealth == null) { Debug.Log("UI Health null"); }
+        uiHealth = FindObjectOfType<UIHealth>();
         
         // uiHealth = GameObject.Find("UIHealth").GetComponent<UIHealth>();
     }

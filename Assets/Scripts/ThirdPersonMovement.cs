@@ -10,7 +10,9 @@ public class ThirdPersonMovement : MonoBehaviour
     public float acceleration = 10f;
     public float deceleration = 8f;
     public float jumpHeight = 3f;
-    public float gravity = -20f;
+    public float gravity = -30f;
+
+    private Vector3 move;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -18,30 +20,68 @@ public class ThirdPersonMovement : MonoBehaviour
     private float currentSpeed;
     
     public bool isClimbing;
-    public float climbSpeed = 10f; 
+    public bool inClimbRange;
+    public bool climbingUp;
+    public bool climbingDown;
+    public float climbSpeed = 250f; 
 
     private bool isJumping;
     private bool isGrounded;
     private float verticalVelocity;
 
-    private bool isFrozen = false;
+    private bool isFrozen;
     private Transform lookTarget;
 
     void Start()
     {
-        controller = GetComponent<CharacterController>();
-        
-        //Cursor.visible = false;
-        //Cursor.lockState = CursorLockMode.Locked;
+        controller = FindObjectOfType<CharacterController>();
+
+        Cursor.visible = false;
+        Cursor.lockState = CursorLockMode.Locked;
     }
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded && !isClimbing)
+        if (Input.GetButtonDown("Jump") && isGrounded && !isClimbing) { isJumping = true; }
+        
+        if (Input.GetButtonDown("Climb") && inClimbRange)
         {
-            isJumping = true;
+            move = Vector3.zero;
+            velocity = Vector3.zero;
+            
+            if (!isClimbing)
+            {
+                isClimbing = true;
+            }
+            else
+            {
+                isClimbing = false;
+            }
+        }
+
+        if (Input.GetKey(KeyCode.W) && isClimbing)
+        {
+            climbingUp = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.W) && isClimbing)
+        {
+            climbingUp = false;
+            move = Vector3.zero;
+            velocity = Vector3.zero;
+        }
+
+        if (Input.GetKey(KeyCode.S) && isClimbing)
+        {
+            climbingDown = true;
+        }
+        else if (Input.GetKeyUp(KeyCode.S) && isClimbing)
+        {
+            climbingDown = false;
+            move = Vector3.zero;
+            velocity = Vector3.zero;
         }
     }
+    
     void FixedUpdate()
     {
         if (isFrozen)
@@ -58,45 +98,44 @@ public class ThirdPersonMovement : MonoBehaviour
     {
         // Is Grounded
         isGrounded = controller.isGrounded;
-        if (isGrounded && velocity.y < 0)
+        if (isGrounded && velocity.y < 0 && !isClimbing)
         {
             velocity.y = -2f;
         }
 
-        // Input
-        float horizontal = Input.GetAxisRaw("Horizontal");
-        float vertical = Input.GetAxisRaw("Vertical");
-
-        Vector3 inputDir = new Vector3(horizontal, 0, vertical).normalized;
-
-        // Move in relation to camera
-        if (inputDir.magnitude >= 0.1f)
-        {
-            Vector3 camForward = cameraTransform.forward;
-            camForward.y = 0;
-            camForward.Normalize();
-            Vector3 camRight = cameraTransform.right;
-            camRight.y = 0;
-            camRight.Normalize();
-
-            Vector3 targetDir = camForward * inputDir.z + camRight * inputDir.x;
-            currentDirection = Vector3.Lerp(currentDirection, targetDir, acceleration * Time.deltaTime);
-            currentSpeed = Mathf.Lerp(currentSpeed, speed, acceleration * Time.deltaTime);
-        }
-        else
-        {
-            currentSpeed = Mathf.Lerp(currentSpeed, 0, deceleration * Time.deltaTime);
-        }
-
-        Vector3 move = currentDirection * currentSpeed;
-
-        // Gravity
         if (!isClimbing)
         {
-            velocity.y += gravity * Time.deltaTime;
-        }
+            // Gravity
+            velocity.y += gravity * Time.fixedDeltaTime;
+            
+            // Input
+            float horizontal = Input.GetAxisRaw("Horizontal");
+            float vertical = Input.GetAxisRaw("Vertical");
 
-        controller.Move((move + velocity) * Time.deltaTime);
+            Vector3 inputDir = new Vector3(horizontal, 0, vertical).normalized;
+
+            // Move in relation to camera
+            if (inputDir.magnitude >= 0.1f)
+            {
+                Vector3 camForward = cameraTransform.forward;
+                camForward.y = 0;
+                camForward.Normalize();
+                Vector3 camRight = cameraTransform.right;
+                camRight.y = 0;
+                camRight.Normalize();
+
+                Vector3 targetDir = camForward * inputDir.z + camRight * inputDir.x;
+                currentDirection = Vector3.Lerp(currentDirection, targetDir, acceleration * Time.fixedDeltaTime);
+                currentSpeed = Mathf.Lerp(currentSpeed, speed, acceleration * Time.fixedDeltaTime);
+            }
+            else
+            {
+                currentSpeed = Mathf.Lerp(currentSpeed, 0, deceleration * Time.fixedDeltaTime);
+            }
+
+            move = currentDirection * currentSpeed;
+        }
+        controller.Move((move + velocity) * Time.fixedDeltaTime);
 
         // Rotate Model, not object
         if (currentDirection.magnitude > 0.1f)
@@ -105,7 +144,7 @@ public class ThirdPersonMovement : MonoBehaviour
             if (lookDirection != Vector3.zero)
             {
                 Quaternion targetRotation = Quaternion.LookRotation(lookDirection);
-                characterModel.rotation = Quaternion.Slerp(characterModel.rotation, targetRotation, Time.deltaTime * 10f);
+                characterModel.rotation = Quaternion.Slerp(characterModel.rotation, targetRotation, Time.fixedDeltaTime * 10f);
             }
         }
     }
@@ -115,7 +154,17 @@ public class ThirdPersonMovement : MonoBehaviour
         // Climb
         if (isClimbing)
         {
-            velocity.y = climbSpeed * Time.fixedDeltaTime;
+            // Climb up and down
+            if (climbingUp)
+            {
+                velocity.y = climbSpeed * Time.fixedDeltaTime;
+                Debug.Log("W FUCKING WORK");
+            }
+            else if (climbingDown)
+            {
+                velocity.y = -climbSpeed * Time.fixedDeltaTime;
+                Debug.Log("S FUCKING WORK");
+            }
         }
         else
         {
@@ -130,14 +179,16 @@ public class ThirdPersonMovement : MonoBehaviour
     
     void OnTriggerStay(Collider other)
     {
-        if (other.CompareTag("Climb") && Input.GetButton("Climb"))
+        if (other.CompareTag("Climb"))
         {
-            isClimbing = true;
+            inClimbRange = true;
+            
             Debug.Log("Player IN range of climbable object");
         }
         else
         {
             isClimbing = false;
+            inClimbRange = false;
         }
     }
 
@@ -146,6 +197,9 @@ public class ThirdPersonMovement : MonoBehaviour
         if (other.CompareTag("Climb"))
         {
             isClimbing = false;
+            inClimbRange = false;
+            climbingUp = false;
+            climbingDown = false;
             Debug.Log("Player OUT range of climbable object");
         }
     }
@@ -175,7 +229,7 @@ public class ThirdPersonMovement : MonoBehaviour
         if (directionToTarget != Vector3.zero)
         {
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
-            characterModel.rotation = Quaternion.Slerp(characterModel.rotation, targetRotation, Time.deltaTime * 5f);
+            characterModel.rotation = Quaternion.Slerp(characterModel.rotation, targetRotation, Time.fixedDeltaTime * 5f);
         }
     }
 }

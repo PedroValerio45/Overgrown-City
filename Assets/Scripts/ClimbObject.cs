@@ -5,9 +5,12 @@ using UnityEngine;
 public class ClimbObject : MonoBehaviour
 {
     public GameObject Player;
+    public promptE promptE;
     
-    private bool playerInRange;
+    [SerializeField] private bool playerInRange;
     public bool playerIsClimbing;
+
+    void Start() { promptE = FindObjectOfType<promptE>(); }
     
     void Update()
     {
@@ -25,19 +28,21 @@ public class ClimbObject : MonoBehaviour
     }
     void OnTriggerEnter(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Climb"))
         {
             playerInRange = true;
+            promptE.PromptE_Show();
             Debug.Log("Player IN range of climbable object");
         }
     }
 
     void OnTriggerExit(Collider other)
     {
-        if (other.CompareTag("Player"))
+        if (other.CompareTag("Climb"))
         {
             playerInRange = false;
-            Debug.Log("Player IN range of climbable object");
+            promptE.PromptE_Disable();
+            Debug.Log("Player OUT of range of climbable object");
         }
     }
 }

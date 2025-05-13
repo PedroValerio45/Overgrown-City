@@ -179,7 +179,6 @@ MonoBehaviour:
   playerData: {fileID: 3104577329677184069}
   uiHealth: {fileID: 0}
   uiPotions: {fileID: 0}
-  playerInv: []
   healthPotionAmount: 0
   healthPotionRegenAmount: 2
 --- !u!114 &5340829333723902170

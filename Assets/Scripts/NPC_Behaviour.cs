@@ -6,6 +6,7 @@ public class NPC_Behaviour : MonoBehaviour
 {
     [SerializeField] public CapsuleCollider cc;
     [SerializeField] private Rigidbody rb;
+    public promptE promptE;
 
     // A* pathfinding stuff
     [SerializeField] public Waypoint currentWaypoint;
@@ -31,6 +32,8 @@ public class NPC_Behaviour : MonoBehaviour
     public void Start()
     {
         playerData = FindObjectOfType<PlayerData>();
+        promptE = FindObjectOfType<promptE>();
+        
         originalSpeed = moveSpeed;
         ChooseNextWaypoint();
     }

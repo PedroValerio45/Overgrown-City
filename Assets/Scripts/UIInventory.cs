@@ -138,27 +138,27 @@ public class UIInventory : MonoBehaviour
             return -1;
         }
 
-        if (playerInventory.playerInv == null)
+        if (PlayerData.partsCollected == null)
         {
             Debug.LogError("Player Inventory list is null");
             return -1;
         }
 
-        if (slot < 0 || slot >= playerInventory.playerInv.Count)
+        if (slot < 0 || slot >= PlayerData.partsCollected.Count)
         {
             Debug.LogError($"Slot index {slot} is out of bounds");
             return -1;
         }
 
-        if (playerInventory.playerInv[slot] == null)
+        if (PlayerData.partsCollected[slot] == 0)
         {
             Debug.Log($"Slot {slot} is empty");
             return -1;
         }
 
         // If we reach here, we have a valid item
-        Debug.Log($"Item found in slot {slot}: {playerInventory.playerInv[slot].itemName} (ID: {playerInventory.playerInv[slot].itemID})");
+        Debug.Log($"Item found in slot {slot}: {PlayerData.partsCollected[slot]} (ID: {PlayerData.partsCollected[slot]})");
     
-        return playerInventory.playerInv[slot].itemID;
+        return PlayerData.partsCollected[slot];
     }
 }
