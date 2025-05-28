@@ -34,7 +34,7 @@ public class CarnivorousPlant : MonoBehaviour
     
     void Update()
     {
-        animator.SetBool("IsAttacking", isAttacking);
+        animator.SetBool("isAttacking", isAttacking);
         
         if (knockbackTimer > 0)
         {
