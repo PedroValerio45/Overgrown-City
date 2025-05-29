@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using TMPro;
+using Cinemachine;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,6 +31,8 @@ public class DialogueManager : MonoBehaviour
     private List<Button> activeButtons = new List<Button>();
     private NPC_Behaviour activeNPC;
 
+    [SerializeField] public CinemachineFreeLook cameraControl;
+
     private Transform playerTransform;
 
     private void Start()
@@ -45,6 +48,11 @@ public class DialogueManager : MonoBehaviour
         if (player == null)
         {
             Debug.LogError("No player in DebugDialog assigned!");
+        }
+
+        if (cameraControl == null)
+        {
+            cameraControl = FindObjectOfType<CinemachineFreeLook>();
         }
 
         playerTransform = player.transform;
@@ -65,6 +73,7 @@ public class DialogueManager : MonoBehaviour
                     promptE.PromptE_Disable();
                     isPromptEActive = false;
                     inDialogue = true;
+                    cameraControl.gameObject.SetActive(false);
                     StartDialogue(closestNPC.NPC_Dialogue_Roots[rootIndex], null);
                 }
                 else
@@ -236,6 +245,8 @@ public class DialogueManager : MonoBehaviour
         Canvas.SetActive(false);
         activeNPC?.ResumeMovement();
         dialogueComplete?.Invoke();
+
+        cameraControl.gameObject.SetActive(true);
 
         if (player.TryGetComponent<ThirdPersonMovement>(out var movementScript))
         {
