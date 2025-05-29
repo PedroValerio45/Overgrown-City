@@ -11,6 +11,10 @@ public class Collectable : MonoBehaviour
     public UIInventory uiInventory;
     public promptE promptE;
     
+    public GameObject gasoline;
+    public GameObject gears;
+    public GameObject propeller;
+    
     // THE COLLECTABLE ID CANNOT BE ZERO
     [SerializeField] public int collectableID;
     bool collected;
@@ -26,26 +30,33 @@ public class Collectable : MonoBehaviour
         PlayerData.partsCollected = playerData.ReadPlayerFile_Collectables();
         if (PlayerData.partsCollected.Contains(collectableID)) { collected = true; }
         
+        GetComponent<Renderer>().enabled = false;
+        
         switch (collectableID)
         {
             case 1:
-                GetComponent<Renderer>().material.color = Color.yellow;
+                gasoline.SetActive(true);
+                // GetComponent<Renderer>().material.color = Color.yellow;
                 // Debug.Log($"Set color for ID {collectableID}");
                 break;
             case 2:
-                GetComponent<Renderer>().material.color = Color.red;
+                gears.SetActive(true);
+                // GetComponent<Renderer>().material.color = Color.red;
                 // Debug.Log($"Set color for ID {collectableID}");
                 break;
             case 3:
-                GetComponent<Renderer>().material.color = Color.blue;
+                propeller.SetActive(true);
+                // GetComponent<Renderer>().material.color = Color.blue;
                 // Debug.Log($"Set color for ID {collectableID}");
                 break;
-            
-            // Just for testing, we don't have a 4th quest item
-            case 4:
-                GetComponent<Renderer>().material.color = Color.magenta;
-                // Debug.Log($"Set color for ID {collectableID}");
-                break;
+        }
+        
+        // Just for testing
+        if (collectableID < 1 || collectableID > 3)
+        {
+            GetComponent<Renderer>().enabled = true;
+            GetComponent<Renderer>().material.color = Color.magenta;
+            // Debug.Log($"Set color for ID {collectableID}");
         }
     }
 

@@ -35,6 +35,7 @@ public class DialogueManager : MonoBehaviour
     private void Start()
     {
         promptE = FindObjectOfType<promptE>();
+        player = FindObjectOfType<PlayerData>();
         
         if (npc.NPC_Dialogue_Roots == null)
         {
@@ -43,7 +44,7 @@ public class DialogueManager : MonoBehaviour
 
         if (player == null)
         {
-            player = FindObjectOfType<PlayerData>();
+            Debug.LogError("No player in DebugDialog assigned!");
         }
 
         playerTransform = player.transform;
