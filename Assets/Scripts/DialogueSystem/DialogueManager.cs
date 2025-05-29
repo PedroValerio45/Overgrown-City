@@ -12,6 +12,7 @@ public class DialogueManager : MonoBehaviour
     //[SerializeField] private AudioClip text_sfx;
 
     [SerializeField] private GameObject Canvas;
+    [SerializeField] private TMP_Text NameText;
     [SerializeField] private TMP_Text TextObject;
     [SerializeField] private Transform ButtonContainer;
     [SerializeField] private Button ButtonPrefab;
@@ -137,6 +138,9 @@ public class DialogueManager : MonoBehaviour
 
         CurrentDialogue = DialogueToPlay;
         dialogueComplete = onDialogueComplete;
+
+        if (activeNPC != null && NameText != null)
+            NameText.text = activeNPC.npcName;
 
         if (activeNPC != null)
         {
