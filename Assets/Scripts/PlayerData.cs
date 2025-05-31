@@ -17,6 +17,11 @@ public class PlayerData : MonoBehaviour
     public int playerHP = 4; // Current HP
     public static string playerAura = "3000 gazillions";
 
+    private float lastYPosition;
+    private float fallThreshold = 10f;
+    private float fallDamageMultiplier = 0.15f;
+    private bool isFalling;
+
     public static bool hasBegunQuest = false;
     public static bool hasFinishedQuest = false;
 
@@ -41,6 +46,33 @@ public class PlayerData : MonoBehaviour
     {
         if (playerDamageCooldownTimer > 0) { playerDamageCooldownTimer -= Time.deltaTime; }
         else if (playerDamageCooldownTimer < 0) { playerDamageCooldownTimer = 0; }
+
+        CharacterController controller = GetComponent<CharacterController>();
+
+        if (!controller.isGrounded)
+        {
+            if (!isFalling)
+            {
+                isFalling = true;
+                lastYPosition = transform.position.y;
+            }
+        }
+        else
+        {
+            if (isFalling)
+            {
+                float fallDistance = lastYPosition - transform.position.y;
+
+                if (fallDistance > fallThreshold)
+                {
+                    int damage = Mathf.RoundToInt((fallDistance - fallThreshold) * fallDamageMultiplier);
+                    Debug.Log($"Fall distance: {fallDistance-fallThreshold}, Damage: {damage}");
+                    ChangeCurrentHP(-damage);
+                }
+
+                isFalling = false;
+            }
+        }
     }
 
     public void ChangeCurrentHP(int amount)

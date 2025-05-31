@@ -34,7 +34,8 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Start()
     {
-        controller = FindObjectOfType<CharacterController>();
+        controller = GetComponent<CharacterController>();
+        controller.stepOffset = 0.75f;
 
         Cursor.visible = false;
         Cursor.lockState = CursorLockMode.Locked;

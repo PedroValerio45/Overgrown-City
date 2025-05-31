@@ -32,6 +32,7 @@ public class NPC_Behaviour : MonoBehaviour
     public void Start()
     {
         playerData = FindObjectOfType<PlayerData>();
+        playerInv = FindObjectOfType<PlayerInventory>();
         promptE = FindObjectOfType<promptE>();
         
         originalSpeed = moveSpeed;
