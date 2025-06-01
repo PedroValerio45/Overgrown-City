@@ -24,6 +24,11 @@ public class PlayerData : MonoBehaviour
 
     public static bool hasBegunQuest = false;
     public static bool hasFinishedQuest = false;
+    
+    // Needed for animations
+    [SerializeField] public bool playerWasHit;
+    private float damageAnimTimer = 0.5f; // Timer for the thing below
+    private float damageAnimTimerMax = 0.5f; // How long to allow the damage animation to play
 
     // Amount of quest items collected
     [SerializeField] public static int amountQuestItemsCollected;
@@ -73,6 +78,16 @@ public class PlayerData : MonoBehaviour
                 isFalling = false;
             }
         }
+
+        if (damageAnimTimer < damageAnimTimerMax)
+        {
+            damageAnimTimer += Time.deltaTime;
+            playerWasHit  = true;
+        }
+        else
+        {
+            playerWasHit =  false;
+        }
     }
 
     public void ChangeCurrentHP(int amount)
@@ -89,6 +104,8 @@ public class PlayerData : MonoBehaviour
             
             playerHP += amount;
             playerDamageCooldownTimer = playerDamageCooldown;
+
+            damageAnimTimer = 0f;
         }
         else
         {

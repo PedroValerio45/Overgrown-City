@@ -12,20 +12,22 @@ public class ThirdPersonMovement : MonoBehaviour
     public float jumpHeight = 3f;
     public float gravity = -30f;
 
-    private Vector3 move;
+    [SerializeField] private Vector3 move;
+    [SerializeField] public bool isWalking; // Needed for animations
 
     private CharacterController controller;
     private Vector3 velocity;
     private Vector3 currentDirection;
     private float currentSpeed;
     
-    public bool isClimbing;
+    public bool isClimbing; // Needed for animations
     public bool inClimbRange;
     public bool climbingUp;
     public bool climbingDown;
     public float climbSpeed = 250f; 
+    public float climbingSpeedAnimMultiplier; // Needed for animations
 
-    private bool isJumping;
+    public bool isJumping; // Public because of the animations
     private bool isGrounded;
     private float verticalVelocity;
 
@@ -63,10 +65,12 @@ public class ThirdPersonMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.W) && isClimbing)
         {
             climbingUp = true;
+            climbingSpeedAnimMultiplier = 1f;
         }
         else if (Input.GetKeyUp(KeyCode.W) && isClimbing)
         {
             climbingUp = false;
+            climbingSpeedAnimMultiplier = 0f;
             move = Vector3.zero;
             velocity = Vector3.zero;
         }
@@ -74,10 +78,12 @@ public class ThirdPersonMovement : MonoBehaviour
         if (Input.GetKey(KeyCode.S) && isClimbing)
         {
             climbingDown = true;
+            climbingSpeedAnimMultiplier = -1f;
         }
         else if (Input.GetKeyUp(KeyCode.S) && isClimbing)
         {
             climbingDown = false;
+            climbingSpeedAnimMultiplier = 0f;
             move = Vector3.zero;
             velocity = Vector3.zero;
         }
@@ -135,6 +141,15 @@ public class ThirdPersonMovement : MonoBehaviour
             }
 
             move = currentDirection * currentSpeed;
+
+            if (move == Vector3.zero)
+            {
+                isWalking =  false;
+            }
+            else
+            {
+                isWalking = true;
+            }
         }
         controller.Move((move + velocity) * Time.fixedDeltaTime);
 
