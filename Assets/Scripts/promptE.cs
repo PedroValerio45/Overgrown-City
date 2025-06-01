@@ -11,15 +11,45 @@ public class promptE : MonoBehaviour
     public Sprite pressed;
     public Sprite notPressed;
     
-    void Start() { PromptE_Disable(); }
+    private bool pressedSprite = false;
+    [SerializeField] private float spriteTimer = 0;
+    private float spriteTimerMax = 0.5f;
+
+    void Start()
+    {
+        PromptE_Disable();
+    }
 
     void Update()
     {
-        if (Input.GetKey(KeyCode.E)) { prompt.sprite = pressed; }
-        else { prompt.sprite = notPressed; }
+        // if (Input.GetKey(KeyCode.E)) { prompt.sprite = pressed; }
+        // else { prompt.sprite = notPressed; }
+        
+        spriteTimer -= Time.deltaTime;
+
+        if (spriteTimer <= 0)
+        {
+            spriteTimer = spriteTimerMax;
+            pressedSprite = !pressedSprite;
+        }
+
+        if (pressedSprite)
+        {
+            prompt.sprite = pressed;
+        }
+        else
+        {
+            prompt.sprite = notPressed;
+        }
     }
 
-    public void PromptE_Show() { prompt.enabled = true; }
-    
-    public void PromptE_Disable() { prompt.enabled = false; }
+    public void PromptE_Show()
+    {
+        prompt.enabled = true;
+    }
+
+    public void PromptE_Disable()
+    {
+        prompt.enabled = false;
+    }
 }

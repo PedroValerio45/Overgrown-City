@@ -1,28 +1,39 @@
 using System.Collections;
 using UnityEngine;
 
-public class Door : MonoBehaviour
+public class DoorOpen : MonoBehaviour
 {
     public promptE promptE;
     
-    private bool doorOpen;
+    public static bool doorOpen;
     private bool isPlayerInRange;
 
+    [SerializeField] private float closedRotationY;
     private Quaternion closedRotation;
     private Quaternion openRotation;
     public float openSpeed = 2f;
+    public bool doorOpenBackwards;
     
     private void Start()
     {
         promptE = FindObjectOfType<promptE>();
         
+        closedRotationY = transform.rotation.eulerAngles.y;
         closedRotation = transform.rotation;
-        openRotation = Quaternion.Euler(0, -90, 0);
+
+        if (doorOpenBackwards)
+        {
+            openRotation = Quaternion.Euler(0, closedRotationY + 70, 0);
+        }
+        else 
+        {
+            openRotation = Quaternion.Euler(0, closedRotationY - 70, 0);
+        }
     }
 
     void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && !doorOpen &&  isPlayerInRange)
+        if (Input.GetKeyDown(KeyCode.E) && !doorOpen && isPlayerInRange)
         {
             StartCoroutine(OpenDoor()); 
         }

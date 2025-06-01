@@ -37,7 +37,7 @@ public class UIInventory : MonoBehaviour
         if (playerInventory == null) Debug.LogError("No player inventory found");
 
         positionXOpen = UIInventoryImage.transform.position.x;
-        positionXClosed = positionXOpen + 430f;
+        positionXClosed = positionXOpen + 575;
 
         menuOpen = false;
         UIInventoryImage.transform.position = new Vector3(
