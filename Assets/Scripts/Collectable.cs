@@ -77,11 +77,15 @@ public class Collectable : MonoBehaviour
             uiInventory.SetItemInvSlotImage(0);
             uiInventory.SetItemInvSlotImage(1);
             uiInventory.SetItemInvSlotImage(2);
+            uiInventory.SetItemInvSlotImage(3);
         }
 
         if (collected)
         {
             gameObject.SetActive(false);
+            gasoline.SetActive(false);
+            gears.SetActive(false);
+            propeller.SetActive(false);
             promptE.PromptE_Disable();
         }
         

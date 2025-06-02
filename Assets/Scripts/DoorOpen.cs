@@ -5,7 +5,7 @@ public class DoorOpen : MonoBehaviour
 {
     public promptE promptE;
     
-    public static bool doorOpen;
+    public bool doorOpen;
     private bool isPlayerInRange;
 
     [SerializeField] private float closedRotationY;

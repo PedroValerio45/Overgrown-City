@@ -1452,8 +1452,8 @@ MonoBehaviour:
   itemImage2: {fileID: 7920072097330876080}
   itemImage3: {fileID: 1078016280442606675}
   ItemSpriteEmpty: {fileID: 21300000, guid: ea1cbb376d10d2c4a8289c40018e5938, type: 3}
-  itemSprite1: {fileID: 21300000, guid: 152e5ee813799d249bbfb0f1659d0c3e, type: 3}
-  itemSprite2: {fileID: 21300000, guid: 26f3707b37202cc4193eeff82a89a55f, type: 3}
-  itemSprite3: {fileID: 21300000, guid: 37400d57857566541a03054c1b64dfac, type: 3}
+  itemSprite1: {fileID: 21300000, guid: 37400d57857566541a03054c1b64dfac, type: 3}
+  itemSprite2: {fileID: 21300000, guid: 152e5ee813799d249bbfb0f1659d0c3e, type: 3}
+  itemSprite3: {fileID: 21300000, guid: 26f3707b37202cc4193eeff82a89a55f, type: 3}
   itemSprite4: {fileID: 21300000, guid: d9fb2db979295dc4599f8ada0f527432, type: 3}
   bagImage: {fileID: 7589361975297134827}

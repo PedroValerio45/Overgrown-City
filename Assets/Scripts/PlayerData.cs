@@ -216,14 +216,28 @@ public class PlayerData : MonoBehaviour
                 amountQuestItemsCollected += 1;
             }
 
-            Debug.Log($"Collected part with ID: {partID}. Total qualifying parts: {amountQuestItemsCollected}");
+            Debug.Log($"Collected item with ID: {partID}. Total qualifying parts: {amountQuestItemsCollected}");
         }
         else
         {
-            Debug.Log($"Part ID {partID} already collected.");
+            Debug.Log($"Item ID {partID} already collected.");
         }
     }
-    
+
+    public void RemoveItem(int partID)
+    {
+        if (partsCollected.Contains(partID))
+        {
+            partsCollected.Remove(partID);
+
+            Debug.Log($"Removed item with ID: {partID}. Total qualifying parts: {amountQuestItemsCollected}");
+        }
+        else
+        {
+            Debug.Log($"I guess you can say item with ID {partID} is a HYPER GONER.");
+        }
+    }
+
     public void LogPartsCollected()
     {
         Debug.Log("=== Parts Collected ===");

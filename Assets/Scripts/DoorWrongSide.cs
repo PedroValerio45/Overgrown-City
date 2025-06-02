@@ -17,7 +17,7 @@ public class DoorWrongSide : MonoBehaviour
     
     void Update()
     {
-        doorIsOpen = DoorOpen.doorOpen;
+        doorIsOpen = doorOpen.doorOpen;
         
         if (Input.GetKeyDown(KeyCode.E) && !doorIsOpen && isPlayerInRange)
         {
