@@ -10,11 +10,6 @@ public class NPCAnimations : MonoBehaviour
     [SerializeField] private bool isWaiting;
     [SerializeField] private bool isTalking;
     
-    void Start()
-    {
-        
-    }
-
     void Update()
     {
         isWaiting = NpcBehaviour.isWaiting;
