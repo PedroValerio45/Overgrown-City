@@ -21,6 +21,8 @@ public class DialogueManager : MonoBehaviour
     [SerializeField] private PlayerData player;
     [SerializeField] private NPC_Behaviour npc;
 
+    [SerializeField] private PauseMenu pauseMenu;
+
     [SerializeField] public float DialogueTextSpeed;
     
     private bool isPromptEActive = false;
@@ -40,7 +42,9 @@ public class DialogueManager : MonoBehaviour
     {
         promptE = FindObjectOfType<promptE>();
         player = FindObjectOfType<PlayerData>();
-        
+
+        pauseMenu = FindObjectOfType<PauseMenu>();
+
         if (npc.NPC_Dialogue_Roots == null)
         {
             Debug.LogError("No DebugDialog assigned!");
@@ -61,7 +65,7 @@ public class DialogueManager : MonoBehaviour
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.E) && Canvas.activeSelf == false)
+        if (Input.GetKeyDown(KeyCode.E) && Canvas.activeSelf == false && !pauseMenu.isPaused)
         {
             NPC_Behaviour closestNPC = FindClosestNPC();
 

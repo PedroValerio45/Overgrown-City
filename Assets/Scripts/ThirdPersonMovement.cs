@@ -34,7 +34,7 @@ public class ThirdPersonMovement : MonoBehaviour
     private float verticalVelocity;
     private bool wasGroundedLastFrame;
 
-    private bool isFrozen;
+    public bool isFrozen;
     private Transform lookTarget;
 
     void Start()
