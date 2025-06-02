@@ -11,6 +11,7 @@ public class UIInventory : MonoBehaviour
     public Image itemImage0;
     public Image itemImage1;
     public Image itemImage2;
+    public Image itemImage3;
 
     private float positionXOpen;
     private float positionXClosed;
@@ -26,6 +27,7 @@ public class UIInventory : MonoBehaviour
     public Sprite itemSprite1;
     public Sprite itemSprite2;
     public Sprite itemSprite3;
+    public Sprite itemSprite4;
     public GameObject bagImage;
 
     void Start()
@@ -49,6 +51,7 @@ public class UIInventory : MonoBehaviour
         SetItemInvSlotImage(0);
         SetItemInvSlotImage(1);
         SetItemInvSlotImage(2);
+        SetItemInvSlotImage(3);
     }
 
     void Update()
@@ -103,6 +106,9 @@ public class UIInventory : MonoBehaviour
             case 2:
                 itemImage = itemImage2;
                 break;
+            case 3:
+                itemImage = itemImage3;
+                break;
             default:
                 itemImage = itemImage0;
                 Debug.LogError("SOME MORON IS USING IMAGE > 2 IN UI INVENTORY");
@@ -121,6 +127,10 @@ public class UIInventory : MonoBehaviour
                 break;
             case 3:
                 itemImage.sprite = itemSprite3;
+                // Debug.Log("Set Items returned: 3");
+                break;
+            case 4:
+                itemImage.sprite = itemSprite4;
                 // Debug.Log("Set Items returned: 3");
                 break;
             default:
