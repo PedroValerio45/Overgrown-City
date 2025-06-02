@@ -27,12 +27,14 @@ public class NPC_Behaviour : MonoBehaviour
     // Other scripts
     [SerializeField] private PlayerInventory playerInv;
     [SerializeField] private PlayerData playerData;
+    [SerializeField] private UIInventory uiInventory;
 
 
     public void Start()
     {
         playerData = FindObjectOfType<PlayerData>();
         playerInv = FindObjectOfType<PlayerInventory>();
+        uiInventory = FindObjectOfType<UIInventory>();
         promptE = FindObjectOfType<promptE>();
         
         originalSpeed = moveSpeed;
@@ -179,6 +181,18 @@ public class NPC_Behaviour : MonoBehaviour
                 else if (PlayerData.amountQuestItemsCollected == 3)
                 {
                     PlayerData.hasFinishedQuest = true;
+
+                    playerData.RemoveItem(1);
+                    playerData.RemoveItem(2);
+                    playerData.RemoveItem(3);
+
+                    playerData.CollectPart(4);
+
+                    uiInventory.SetItemInvSlotImage(0);
+                    uiInventory.SetItemInvSlotImage(1);
+                    uiInventory.SetItemInvSlotImage(2);
+                    uiInventory.SetItemInvSlotImage(3);
+
                     return 2; // Engineer accepts your items and gives you the boat part in return.
                 }
             }
