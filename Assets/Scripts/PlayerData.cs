@@ -225,6 +225,8 @@ public class PlayerData : MonoBehaviour
         {
             Debug.Log($"Item ID {partID} already collected.");
         }
+
+        LogPartsCollected();
     }
 
     public void RemoveItem(int partID)
@@ -233,12 +235,14 @@ public class PlayerData : MonoBehaviour
         {
             partsCollected.Remove(partID);
 
-            Debug.Log($"Removed item with ID: {partID}. Total qualifying parts: {amountQuestItemsCollected}");
+            Debug.Log($"Removed item with ID: {partID}.");
         }
         else
         {
             Debug.Log($"I guess you can say item with ID {partID} is a HYPER GONER.");
         }
+
+        LogPartsCollected();
     }
 
     public void LogPartsCollected()
