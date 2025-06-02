@@ -45,6 +45,8 @@ public class PlayerData : MonoBehaviour
         uiHealth = FindObjectOfType<UIHealth>();
         
         // uiHealth = GameObject.Find("UIHealth").GetComponent<UIHealth>();
+        
+        Screen.SetResolution(1920, 1080, false);
     }
 
     void Update()
