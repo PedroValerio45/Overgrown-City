@@ -37,7 +37,7 @@ public class UIInventory : MonoBehaviour
         if (playerInventory == null) Debug.LogError("No player inventory found");
 
         positionXOpen = UIInventoryImage.transform.position.x;
-        positionXClosed = positionXOpen + 575;
+        positionXClosed = positionXOpen + 575f;
 
         menuOpen = false;
         UIInventoryImage.transform.position = new Vector3(
@@ -113,19 +113,19 @@ public class UIInventory : MonoBehaviour
         {
             case 1:
                 itemImage.sprite = itemSprite1;
-                Debug.Log("Set Items returned: 1");
+                // Debug.Log("Set Items returned: 1");
                 break;
             case 2:
                 itemImage.sprite = itemSprite2;
-                Debug.Log("Set Items returned: 2");
+                // Debug.Log("Set Items returned: 2");
                 break;
             case 3:
                 itemImage.sprite = itemSprite3;
-                Debug.Log("Set Items returned: 3");
+                // Debug.Log("Set Items returned: 3");
                 break;
             default:
                 itemImage.sprite = ItemSpriteEmpty;
-                Debug.Log("Set Items returned empty or -1");
+                // Debug.Log("Set Items returned empty or -1");
                 break;
         }
     }
