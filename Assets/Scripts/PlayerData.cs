@@ -100,9 +100,12 @@ public class PlayerData : MonoBehaviour
         
         if (playerDamageCooldownTimer <= 0)
         {
-            Debug.Log("HP set to: " + playerHP);
-            
             playerHP += amount;
+
+            Debug.Log("HP set to: " + playerHP);
+
+            playerHP = Mathf.Clamp(playerHP, 0, playerMaxHP);
+
             playerDamageCooldownTimer = playerDamageCooldown;
 
             damageAnimTimer = 0f;
