@@ -108,11 +108,23 @@ public class DialogueManager : MonoBehaviour
 
         return closestNPC;
     }
-    
+
     private void NPC_ControlPromptE()
     {
-        float distance = Vector3.Distance(player.transform.position, npc.transform.position);
-        bool withinRange = distance <= npc.interactionRadius;
+        NPC_Behaviour closestNPC = FindClosestNPC();
+
+        if (closestNPC == null)
+        {
+            if (isPromptEActive)
+            {
+                promptE.PromptE_Disable();
+                isPromptEActive = false;
+            }
+            return;
+        }
+
+        float distance = Vector3.Distance(player.transform.position, closestNPC.transform.position);
+        bool withinRange = distance <= closestNPC.interactionRadius;
 
         if (withinRange && !isPromptEActive && !inDialogue)
         {
@@ -125,6 +137,7 @@ public class DialogueManager : MonoBehaviour
             isPromptEActive = false;
         }
     }
+
 
 
     private Coroutine dialogueCoroutine;
