@@ -27,9 +27,12 @@ public class ThirdPersonMovement : MonoBehaviour
     public float climbSpeed = 250f; 
     public float climbingSpeedAnimMultiplier; // Needed for animations
 
-    public bool isJumping; // Public because of the animations
+    [SerializeField] public float jumpingAnimTimer; // Public because of the animations
+    public float jumpingAnimTimerMax = 1f; // Public because of the animations
+    [SerializeField] private bool isJumping;
     private bool isGrounded;
     private float verticalVelocity;
+    private bool wasGroundedLastFrame;
 
     private bool isFrozen;
     private Transform lookTarget;
@@ -45,7 +48,10 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded && !isClimbing) { isJumping = true; }
+        if (Input.GetButtonDown("Jump") && isGrounded && !isClimbing)
+        {
+            isJumping = true;
+        }
         
         if (Input.GetButtonDown("Climb") && inClimbRange)
         {
@@ -86,6 +92,22 @@ public class ThirdPersonMovement : MonoBehaviour
             climbingSpeedAnimMultiplier = 0f;
             move = Vector3.zero;
             velocity = Vector3.zero;
+        }
+        
+        // For the walking animation
+        if (!Input.GetKey(KeyCode.W) && !Input.GetKey(KeyCode.S) && !Input.GetKey(KeyCode.A) && !Input.GetKey(KeyCode.D))
+        {
+            isWalking = false;
+        }
+        else
+        {
+            isWalking = true;
+        }
+
+        // Jumping animation stuff
+        if (jumpingAnimTimer < jumpingAnimTimerMax)
+        {
+            jumpingAnimTimer += Time.deltaTime;
         }
     }
     
@@ -142,15 +164,15 @@ public class ThirdPersonMovement : MonoBehaviour
 
             move = currentDirection * currentSpeed;
 
-            if (move == Vector3.zero)
+            // For jumping animation: Only reset when landing
+            if (isGrounded && !wasGroundedLastFrame)
             {
-                isWalking =  false;
+                jumpingAnimTimer = jumpingAnimTimerMax;
             }
-            else
-            {
-                isWalking = true;
-            }
+
+            wasGroundedLastFrame = isGrounded;
         }
+        
         controller.Move((move + velocity) * Time.fixedDeltaTime);
 
         // Rotate Model, not object
@@ -189,6 +211,8 @@ public class ThirdPersonMovement : MonoBehaviour
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 isJumping = false;
+                
+                jumpingAnimTimer = 0f;
             }
         }
     }

@@ -1,39 +1,9 @@
 fileFormatVersion: 2
-guid: b6273b56e5716674eb9e2a7e5bed4dd0
+guid: 8b16417c416e31e4684570b291fe1b43
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects:
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: OIP
-    second: {fileID: 2800000, guid: 26415116aa083c347be199460ae7f613, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: OIP (1)
-    second: {fileID: 2800000, guid: 7eaa419c681d2b941b0400b65625db7e, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: OIP (6)
-    second: {fileID: 2800000, guid: 69ace152b705eb547aa438d5abf631fe, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: cap1
-    second: {fileID: 2800000, guid: 9e304d55f0c471649891d107dda4a56d, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: yel
-    second: {fileID: 2800000, guid: 25131e7d50343b84aa37c6212a17bd99, type: 3}
-  - first:
-      type: UnityEngine:Texture2D
-      assembly: UnityEngine.CoreModule
-      name: yt-2
-    second: {fileID: 2800000, guid: 452c4343c7ca5c94398876586ed5fba8, type: 3}
+  externalObjects: {}
   materials:
     materialImportMode: 2
     materialName: 0

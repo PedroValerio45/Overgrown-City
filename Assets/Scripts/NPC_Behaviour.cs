@@ -11,7 +11,7 @@ public class NPC_Behaviour : MonoBehaviour
     // A* pathfinding stuff
     [SerializeField] public Waypoint currentWaypoint;
     [SerializeField] public float moveSpeed;
-    private bool isWaiting = false;
+    [SerializeField] public bool isWaiting = false; // Needed for animations
     private float originalSpeed;
     private List<Waypoint> path;
     private int currentPathIndex = 0;
@@ -20,9 +20,9 @@ public class NPC_Behaviour : MonoBehaviour
     [SerializeField] public float interactionRadius;
     [SerializeField] public int npcID;
     [SerializeField] public string npcName;
-    [SerializeField] public static bool hasInteractedWithPlayer;
+    [SerializeField] public bool hasInteractedWithPlayer; // Removed "static" from this
     [SerializeField] public SO_Dialogue[] NPC_Dialogue_Roots;
-    private bool isFrozen = false;
+    public bool isFrozen = false; // Needed for animations
 
     // Other scripts
     [SerializeField] private PlayerInventory playerInv;
@@ -85,7 +85,7 @@ public class NPC_Behaviour : MonoBehaviour
     {
         if (currentWaypoint == null)
         {
-            Debug.LogError($"{gameObject.name} has no starting waypoint set!");
+            // Debug.LogError($"{gameObject.name} has no starting waypoint set!");
             return;
         }
 
@@ -93,7 +93,7 @@ public class NPC_Behaviour : MonoBehaviour
 
         if (options == null || options.Count == 0)
         {
-            Debug.LogWarning($"{currentWaypoint.name} has no neighbors.");
+            // Debug.LogWarning($"{currentWaypoint.name} has no neighbors.");
             return;
         }
 
@@ -102,21 +102,21 @@ public class NPC_Behaviour : MonoBehaviour
 
         if (path == null)
         {
-            Debug.LogError($"No path found from {currentWaypoint.name} to {next.name}");
+            // Debug.LogError($"No path found from {currentWaypoint.name} to {next.name}");
             return;
         }
 
         currentPathIndex = 0;
         currentWaypoint = next;
 
-        Debug.Log($"{gameObject.name} pathing from {currentWaypoint.name} to {next.name}");
+        // Debug.Log($"{gameObject.name} pathing from {currentWaypoint.name} to {next.name}");
     }
 
     private IEnumerator WaitAtWaypoint()
     {
         isWaiting = true;
         float waitTime = Random.Range(2f, 5f);
-        Debug.Log($"{gameObject.name} is waiting for {waitTime} seconds.");
+        // Debug.Log($"{gameObject.name} is waiting for {waitTime} seconds.");
 
         yield return new WaitForSeconds(waitTime);
 

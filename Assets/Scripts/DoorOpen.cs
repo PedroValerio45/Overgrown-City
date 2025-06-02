@@ -23,11 +23,11 @@ public class DoorOpen : MonoBehaviour
 
         if (doorOpenBackwards)
         {
-            openRotation = Quaternion.Euler(0, closedRotationY + 70, 0);
+            openRotation = Quaternion.Euler(0, closedRotationY + 80, 0);
         }
-        else 
+        else
         {
-            openRotation = Quaternion.Euler(0, closedRotationY - 70, 0);
+            openRotation = Quaternion.Euler(0, closedRotationY - 80, 0);
         }
     }
 
