@@ -3,7 +3,12 @@ guid: ab9107abdb2cc9249852025da5d76306
 ModelImporter:
   serializedVersion: 22200
   internalIDToNameTable: []
-  externalObjects: {}
+  externalObjects:
+  - first:
+      type: UnityEngine:Texture2D
+      assembly: UnityEngine.CoreModule
+      name: GroundPlantLeaves
+    second: {fileID: 2800000, guid: 9a1dc4a52f59ca64ea7aedc831b68a0f, type: 3}
   materials:
     materialImportMode: 2
     materialName: 0
