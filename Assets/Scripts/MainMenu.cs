@@ -7,28 +7,32 @@ using UnityEngine.UI;
 
 public class ManuMenu : MonoBehaviour
 {
-    [SerializeField] private AudioSource audioSource;
-    [SerializeField] private AudioClip soundBell;
-    [SerializeField] private AudioClip soundError;
+    public AudioSource audioSource;
+    // [SerializeField] private AudioClip soundBell;
+    // [SerializeField] private AudioClip soundError;
+    public GameObject settingsMenu;
+    public Slider volumeSlider;
+    public Slider graphicsSlider;
     
     [SerializeField] private Button continueButton;
     [SerializeField] private Button newGameButton;
     [SerializeField] private Button settingsButton;
     [SerializeField] private Button exitGameButton;
+    [SerializeField] private Button saveButton;
+    [SerializeField] private Button cancelButton;
+
+    [SerializeField] private float volumeSliderCurrentValue = 1f;
+    [SerializeField] private float volumeSliderNewValue;
+    [SerializeField] private float graphicsSliderCurrentValue = 1f;
+    [SerializeField] private float graphicsSliderNewValue;
     
-    [SerializeField] private float frameInterval = 0.5f; // time between flashes
-    [SerializeField] private float flashDuration = 1f; // flash duration
-    private int frameCount = 0; // Tracks frames
-    private int buttonPressedNumber = 0;
-    private bool playCanFlash = false;
+    private int frameCount; // Tracks frames
+    private int buttonPressedNumber;
+    private bool playCanFlash;
 
-
-    void Start()
-    {
-    }
     void Update()
     {
-        if (buttonPressedNumber != 0)
+        /* if (buttonPressedNumber != 0)
         {
             frameCount++;
 
@@ -38,39 +42,57 @@ public class ManuMenu : MonoBehaviour
                 ToggleButtonVisibility();
                 frameCount = 0; // Reset the frame counter
             }
-        }
+        } */
+        
+        volumeSliderNewValue =  volumeSlider.value;
+        graphicsSliderNewValue = graphicsSlider.value;
     }
     
-    public void PlayGame()
+    public void ContinueGame()
     {
         buttonPressedNumber = 1;
-        ReadPlayerFile();
-        if (ReadPlayerFile() != -1)
+        if (ReadPlayerFile_Collectables())
         {
-            playCanFlash = true;
-            
-            StartCoroutine(FlashForDuration(flashDuration));
+            SceneManager.LoadScene(1, LoadSceneMode.Single);
         }
         else
         {
-            audioSource.clip = soundError;
-            audioSource.Play();
-            
-            print("File does not exist.");
+            // audioSource.clip = soundError;
+            // audioSource.Play();
         }
-        
+    }
+    
+    public void NewGame()
+    {
+        buttonPressedNumber = 2;
+        DeletePlayerFile_Collectables();
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
     }
 
     public void OptionsMenu()
     {
-        buttonPressedNumber = 2;
-        StartCoroutine(FlashForDuration(flashDuration));
+        settingsMenu.SetActive(true);
     }
 
     public void QuitGame()
     {
-        buttonPressedNumber = 3;
-        StartCoroutine(FlashForDuration(flashDuration));
+        Application.Quit();
+    }
+
+    public void Setings_SaveButton()
+    {
+        volumeSliderCurrentValue = volumeSliderNewValue;
+        volumeSlider.value = volumeSliderCurrentValue;
+        graphicsSliderCurrentValue = graphicsSliderNewValue;
+        graphicsSlider.value = graphicsSliderCurrentValue;
+        settingsMenu.SetActive(false);
+    }
+
+    public void Setings_CancelButton()
+    {
+        volumeSlider.value = volumeSliderCurrentValue;
+        graphicsSlider.value = graphicsSliderCurrentValue;
+        settingsMenu.SetActive(false);
     }
 
     void ToggleButtonVisibility()
@@ -78,69 +100,95 @@ public class ManuMenu : MonoBehaviour
         switch (buttonPressedNumber)
         {
             case 1:
-                if (continueButton != null) continueButton.GetComponent<Image>().enabled = !continueButton.GetComponent<Image>().enabled;
+                continueButton.GetComponent<Image>().enabled = !continueButton.GetComponent<Image>().enabled;
                 break;
             
             case 2:
-                if (newGameButton != null) newGameButton.GetComponent<Image>().enabled = !newGameButton.GetComponent<Image>().enabled;
+                newGameButton.GetComponent<Image>().enabled = !newGameButton.GetComponent<Image>().enabled;
                 break;
             
             case 3:
-                if (settingsButton != null) settingsButton.GetComponent<Image>().enabled = !settingsButton.GetComponent<Image>().enabled;
+                settingsButton.GetComponent<Image>().enabled = !settingsButton.GetComponent<Image>().enabled;
                 break;
             
             case 4:
-                if (exitGameButton != null) exitGameButton.GetComponent<Image>().enabled = !exitGameButton.GetComponent<Image>().enabled;
+                exitGameButton.GetComponent<Image>().enabled = !exitGameButton.GetComponent<Image>().enabled;
+                break;
+            
+            case 5:
+                saveButton.GetComponent<Image>().enabled = !saveButton.GetComponent<Image>().enabled;
+                break;
+            
+            case 6:
+                cancelButton.GetComponent<Image>().enabled = !cancelButton.GetComponent<Image>().enabled;
                 break;
         }
     }
 
+    // (UNUSED)
     IEnumerator FlashForDuration(float duration)
     {
-        audioSource.clip = soundBell;
-        audioSource.Play();
+        // audioSource.clip = soundBell;
+        // audioSource.Play();
         
         yield return new WaitForSeconds(duration); 
 
-        if (buttonPressedNumber == 1)
+        if (buttonPressedNumber == 1 || buttonPressedNumber == 2)
         {
             SceneManager.LoadScene(1, LoadSceneMode.Single);
         }
-        else if (buttonPressedNumber == 2)
-        {
-            print("No one can choose who their are in this world. Your name is... AMONGUS");
-        }
         else if (buttonPressedNumber == 3)
         {
+            settingsMenu.SetActive(true);
+        }
+        else if (buttonPressedNumber == 4)
+        {
             Application.Quit();
+        }
+        else if (buttonPressedNumber == 5 ||  buttonPressedNumber == 6)
+        {
+            settingsMenu.SetActive(false);
         }
 
         buttonPressedNumber = 0;
     }
     
-    private int ReadPlayerFile()
+    public bool ReadPlayerFile_Collectables()
     {
-        string fileName = "playerID.txt";
-        string filePath = Path.Combine(Application.dataPath, fileName);
-        int playerID = -1; // Default value in case of failure
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
 
-        // Read the content from the file
         if (File.Exists(filePath))
         {
-            string fileContent = File.ReadAllText(filePath);
+            
+            print("Menu: File found.");
+            return true;
+        }
+        else
+        {
+            print("Menu: File does not exist.");
+            return false;
+        }
+    }
+    
+    public void DeletePlayerFile_Collectables()
+    {
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
 
-            // Convert the content back to an integer
-            if (int.TryParse(fileContent, out int readID))
+        if (File.Exists(filePath))
+        {
+            try
             {
-                Debug.Log($"Read number {readID} from file.");
-                playerID = readID;
+                File.Delete(filePath);
+                Debug.Log("Collectables file deleted successfully.");
             }
-            else
+            catch (System.Exception e)
             {
-                Debug.LogError("Failed to parse the content as an integer.");
+                Debug.LogError("Failed to delete file: " + e.Message);
             }
         }
-        
-        return playerID;
+        else
+        {
+            Debug.Log("File does not exist, nothing to delete.");
+        }
     }
 }
