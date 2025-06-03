@@ -204,7 +204,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2643813042250902060}
   serializedVersion: 4
-  m_Mass: 100
+  m_Mass: 10000
   m_Drag: 0
   m_AngularDrag: 0.05
   m_CenterOfMass: {x: 0, y: 0, z: 0}
@@ -216,7 +216,7 @@ Rigidbody:
   m_ExcludeLayers:
     serializedVersion: 2
     m_Bits: 0
-  m_ImplicitCom: 1
+  m_ImplicitCom: 0
   m_ImplicitTensor: 1
   m_UseGravity: 1
   m_IsKinematic: 0
@@ -250,6 +250,7 @@ MonoBehaviour:
   isFrozen: 0
   playerInv: {fileID: 0}
   playerData: {fileID: 0}
+  uiInventory: {fileID: 0}
 --- !u!114 &3003110129759003017
 MonoBehaviour:
   m_ObjectHideFlags: 0
