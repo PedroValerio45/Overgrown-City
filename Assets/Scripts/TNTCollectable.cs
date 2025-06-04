@@ -89,7 +89,7 @@ public class TNTCollectable : MonoBehaviour
             playerInRange = false;
 
             transform.position = tntZoneTransform.position + Vector3.up * 0.1f;
-            transform.rotation = Quaternion.Euler(0f, -30f, 0f);
+            transform.rotation = Quaternion.Euler(0f, -120f, 0f);
 
             tntPlaced = true;
             readyToDetonate = false;
