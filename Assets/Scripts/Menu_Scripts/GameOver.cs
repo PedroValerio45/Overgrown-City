@@ -1,56 +1,94 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Video;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
+using System.Collections;
+using System.IO;
 
 public class GameOver : MonoBehaviour
 {
-    public PlayerData playerData;
-    public Image gameOverImage;
-    public float fadeDuration;
+    public VideoPlayer videoPlayer;
+    public CanvasGroup uiGroup;
+    public float fadeDuration = 1f;
 
-    private bool hasFadedIn = false;
+    public AudioSource audioSource;
+    public AudioClip clickSound;
 
     void Start()
     {
-        if (gameOverImage != null)
-        {
-            Color c = gameOverImage.color;
-            c.a = 0f;
-            gameOverImage.color = c;
-        }
+        uiGroup.alpha = 0f;
+        uiGroup.gameObject.SetActive(false);
 
-        if (playerData == null)
-        {
-            playerData = FindObjectOfType<PlayerData>();
-        }
+        videoPlayer.loopPointReached += OnVideoFinished;
     }
 
-    void Update()
+    void OnVideoFinished(VideoPlayer vp)
     {
-        if (!hasFadedIn && playerData != null && playerData.playerHP <= 0)
-        {
-            hasFadedIn = true;
-            gameOverImage.gameObject.SetActive(true);
-            StartCoroutine(FadeIn());
-        }
+        StartCoroutine(FadeInUI());
     }
 
-    IEnumerator FadeIn()
+    IEnumerator FadeInUI()
     {
-        float elapsed = 0f;
-        Color c = gameOverImage.color;
+        uiGroup.gameObject.SetActive(true);
+        uiGroup.interactable = true;
+        uiGroup.blocksRaycasts = true;
 
-        while (elapsed < fadeDuration)
+        float time = 0f;
+        while (time < fadeDuration)
         {
-            elapsed += Time.deltaTime;
-            c.a = Mathf.Clamp01(elapsed / fadeDuration);
-            gameOverImage.color = c;
+            uiGroup.alpha = Mathf.Lerp(0f, 1f, time / fadeDuration);
+            time += Time.deltaTime;
             yield return null;
         }
 
-        // Ensure full opacity at the end
-        c.a = 1f;
-        gameOverImage.color = c;
+        uiGroup.alpha = 1f;
+    }
+
+
+    public void Continue()
+    {
+        audioSource.clip = clickSound;
+        audioSource.Play();
+
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
+    }
+
+    public void Quit()
+    {
+        audioSource.clip = clickSound;
+        audioSource.Play();
+
+        SceneManager.LoadScene("MainMenu");
+    }
+
+    public void NewGame()
+    {
+        audioSource.clip = clickSound;
+        audioSource.Play();
+
+        DeletePlayerFile_Collectables();
+        SceneManager.LoadScene(1, LoadSceneMode.Single);
+    }
+
+    public void DeletePlayerFile_Collectables()
+    {
+        string filePath = Path.Combine(Application.dataPath, "playerCollectables.txt");
+
+        if (File.Exists(filePath))
+        {
+            try
+            {
+                File.Delete(filePath);
+                Debug.Log("Collectables file deleted successfully.");
+            }
+            catch (System.Exception e)
+            {
+                Debug.LogError("Failed to delete file: " + e.Message);
+            }
+        }
+        else
+        {
+            Debug.Log("File does not exist, nothing to delete.");
+        }
     }
 }
