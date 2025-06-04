@@ -11,6 +11,7 @@ TagManager:
   - CameraIgnore
   - Collectable
   - Door
+  - TNT_Zone
   layers:
   - Default
   - TransparentFX
