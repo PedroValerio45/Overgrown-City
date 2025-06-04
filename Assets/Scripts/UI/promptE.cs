@@ -5,7 +5,7 @@ using UnityEngine.UI;
 
 public class promptE : MonoBehaviour
 {
-    //The E prompt is controlled by the Collectable, ClimbObject, NPC_Behaviour, and Door scripts
+    // The E prompt is controlled by the Collectable, ClimbObject, NPC_Behaviour, and Door scripts (and dynamite?)
     
     public Image prompt;
     public Sprite pressed;

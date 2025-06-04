@@ -14,13 +14,6 @@ public class ManuMenu : MonoBehaviour
     public GameObject settingsMenu;
     public Slider volumeSlider;
     public Slider graphicsSlider;
-    
-    [SerializeField] private Button continueButton;
-    [SerializeField] private Button newGameButton;
-    [SerializeField] private Button settingsButton;
-    [SerializeField] private Button exitGameButton;
-    [SerializeField] private Button saveButton;
-    [SerializeField] private Button cancelButton;
 
     [SerializeField] private float volumeSliderCurrentValue = 1f;
     [SerializeField] private float volumeSliderNewValue;
@@ -33,19 +26,7 @@ public class ManuMenu : MonoBehaviour
 
     void Update()
     {
-        /* if (buttonPressedNumber != 0)
-        {
-            frameCount++;
-
-            // Toggle visibility every `frameInterval` frames
-            if (frameCount >= frameInterval && playCanFlash)
-            {
-                ToggleButtonVisibility();
-                frameCount = 0; // Reset the frame counter
-            }
-        } */
-        
-        volumeSliderNewValue =  volumeSlider.value;
+        volumeSliderNewValue = volumeSlider.value;
         graphicsSliderNewValue = graphicsSlider.value;
     }
     
@@ -107,65 +88,6 @@ public class ManuMenu : MonoBehaviour
         graphicsSlider.value = graphicsSliderCurrentValue;
         
         settingsMenu.SetActive(false);
-    }
-
-    // UNUSED
-    void ToggleButtonVisibility()
-    {
-        switch (buttonPressedNumber)
-        {
-            case 1:
-                continueButton.GetComponent<Image>().enabled = !continueButton.GetComponent<Image>().enabled;
-                break;
-            
-            case 2:
-                newGameButton.GetComponent<Image>().enabled = !newGameButton.GetComponent<Image>().enabled;
-                break;
-            
-            case 3:
-                settingsButton.GetComponent<Image>().enabled = !settingsButton.GetComponent<Image>().enabled;
-                break;
-            
-            case 4:
-                exitGameButton.GetComponent<Image>().enabled = !exitGameButton.GetComponent<Image>().enabled;
-                break;
-            
-            case 5:
-                saveButton.GetComponent<Image>().enabled = !saveButton.GetComponent<Image>().enabled;
-                break;
-            
-            case 6:
-                cancelButton.GetComponent<Image>().enabled = !cancelButton.GetComponent<Image>().enabled;
-                break;
-        }
-    }
-
-    // UNUSED
-    IEnumerator FlashForDuration(float duration)
-    {
-        audioSource.clip = clickSound;
-        audioSource.Play();
-        
-        yield return new WaitForSeconds(duration); 
-
-        if (buttonPressedNumber == 1 || buttonPressedNumber == 2)
-        {
-            SceneManager.LoadScene(1, LoadSceneMode.Single);
-        }
-        else if (buttonPressedNumber == 3)
-        {
-            settingsMenu.SetActive(true);
-        }
-        else if (buttonPressedNumber == 4)
-        {
-            Application.Quit();
-        }
-        else if (buttonPressedNumber == 5 ||  buttonPressedNumber == 6)
-        {
-            settingsMenu.SetActive(false);
-        }
-
-        buttonPressedNumber = 0;
     }
     
     public bool ReadPlayerFile_Collectables()

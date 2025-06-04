@@ -6,6 +6,7 @@ public class TNTCollectable : MonoBehaviour
     public promptE promptE;
     public GameObject tntModel;
     public BuildingFall buildingFall;
+    public GameObject semiTransparent;
 
     private bool collected;
     private bool placedDown;
@@ -68,15 +69,12 @@ public class TNTCollectable : MonoBehaviour
             Destroy(gameObject);
         }
 
+        // Show prompt only when entering relevant zones
         if ((playerInRange && !collected && !placedDown) ||
             (playerInZone && collected) ||
             (playerInZone && tntPlaced && readyToDetonate && !buildingHasFallen))
         {
             promptE.PromptE_Show();
-        }
-        else
-        {
-            promptE.PromptE_Disable();
         }
     }
 
@@ -84,17 +82,18 @@ public class TNTCollectable : MonoBehaviour
     {
         if (tntZoneTransform != null)
         {
+            semiTransparent.SetActive(false);
+            
             collected = false;
             placedDown = true;
             playerInRange = false;
 
             transform.position = tntZoneTransform.position + Vector3.up * 0.1f;
-            transform.rotation = Quaternion.Euler(0f, -120f, 0f);
+            transform.rotation = Quaternion.Euler(0f, -30f, 0f);
 
             tntPlaced = true;
             readyToDetonate = false;
 
-            // Delay detonation by one frame to avoid instant triggering
             StartCoroutine(EnableDetonationNextFrame());
 
             Debug.Log("TNT placed down.");
@@ -130,11 +129,13 @@ public class TNTCollectable : MonoBehaviour
         if (other.CompareTag("Player"))
         {
             playerInRange = false;
+            promptE.PromptE_Disable();
         }
         else if (other.CompareTag("TNT_Zone"))
         {
             playerInZone = false;
             tntZoneTransform = null;
+            promptE.PromptE_Disable();
         }
     }
 }

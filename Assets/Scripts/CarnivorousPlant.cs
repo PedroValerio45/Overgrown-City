@@ -91,6 +91,7 @@ public class CarnivorousPlant : MonoBehaviour
                     ApplyKnockback(direction, 50f, 0.25f);
                 }
                 
+                audioSourcePlayerOthers.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
                 audioSourcePlayerOthers.clip = plantDamageSound;
                 audioSourcePlayerOthers.Play();
                 

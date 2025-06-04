@@ -176,6 +176,7 @@ public class DialogueManager : MonoBehaviour
 
         foreach (string dialogueLine in CurrentDialogue.Dialogues)
         {
+            audioSourceMenus.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
             audioSourceMenus.clip = NpcTalkSound;
             audioSourceMenus.Play();
             

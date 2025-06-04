@@ -72,7 +72,7 @@ public class PlayerInventory : MonoBehaviour
                 audioSourcePlayerOthers.Play();
                 
                 healthPotionAmount--;
-                playerData.playerHP += healthPotionAmount;
+                playerData.playerHP += healthPotionRegenAmount;
                 if (playerData.playerHP > PlayerData.playerMaxHP && !PlayerData.isCheating)
                 {
                     playerData.playerHP = PlayerData.playerMaxHP;
