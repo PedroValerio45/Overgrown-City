@@ -68,6 +68,7 @@ public class PlayerInventory : MonoBehaviour
         {
             if (playerData.playerHP < PlayerData.playerMaxHP)
             {
+                audioSourcePlayerOthers.pitch = 1f;
                 audioSourcePlayerOthers.clip = healSound;
                 audioSourcePlayerOthers.Play();
                 

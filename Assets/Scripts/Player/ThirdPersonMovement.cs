@@ -3,6 +3,7 @@ using UnityEngine;
 [RequireComponent(typeof(CharacterController))]
 public class ThirdPersonMovement : MonoBehaviour
 {
+    public PlayerData playerData;
     public Transform characterModel;
     public Transform cameraTransform; // MAIN CAMERA OF EACH SCENE (NEEDS TO BE MANUALLY ASSIGNED)
     public float speed = 12f;
@@ -38,6 +39,7 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Start()
     {
+        playerData = FindObjectOfType<PlayerData>();
         controller = GetComponent<CharacterController>();
         controller.stepOffset = 0.75f;
 
@@ -47,12 +49,12 @@ public class ThirdPersonMovement : MonoBehaviour
 
     void Update()
     {
-        if (Input.GetButtonDown("Jump") && isGrounded && !isClimbing)
+        if (Input.GetButtonDown("Jump") && isGrounded && !isClimbing && playerData.playerHP > 0 )// If player isn't dead
         {
             isJumping = true;
         }
         
-        if (Input.GetButtonDown("Climb") && inClimbRange)
+        if (Input.GetButtonDown("Climb") && inClimbRange && playerData.playerHP > 0) // If player isn't dead
         {
             move = Vector3.zero;
             velocity = Vector3.zero;
@@ -100,7 +102,6 @@ public class ThirdPersonMovement : MonoBehaviour
         }
         else
         {
-            
             isWalking = true;
         }
 
@@ -118,8 +119,17 @@ public class ThirdPersonMovement : MonoBehaviour
             FaceLookTarget();
             return;
         }
-
-        HorizontalMovementAndRotation();
+        
+        if (playerData.playerHP > 0)
+        {
+            HorizontalMovementAndRotation();
+        }
+        else
+        {
+            // Still apply gravity when dead
+            velocity.y += gravity * Time.fixedDeltaTime;
+            controller.Move(velocity * Time.fixedDeltaTime);
+        }
         VerticalMovement();
     }
 
@@ -192,26 +202,23 @@ public class ThirdPersonMovement : MonoBehaviour
         // Climb
         if (isClimbing)
         {
-            // Climb up and down
             if (climbingUp)
             {
                 velocity.y = climbSpeed * Time.fixedDeltaTime;
-                Debug.Log("W FUCKING WORK");
             }
             else if (climbingDown)
             {
                 velocity.y = -climbSpeed * Time.fixedDeltaTime;
-                Debug.Log("S FUCKING WORK");
             }
         }
         else
         {
             // Jump
-            if (isJumping)
+            if (isJumping && playerData.playerHP > 0) // Only jump if alive
             {
                 velocity.y = Mathf.Sqrt(jumpHeight * -2f * gravity);
                 isJumping = false;
-                
+
                 jumpingAnimTimer = 0f;
             }
         }

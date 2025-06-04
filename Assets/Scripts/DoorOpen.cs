@@ -3,6 +3,10 @@ using UnityEngine;
 
 public class DoorOpen : MonoBehaviour
 {
+    // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
+    public AudioSource audioSourceHazardsAndDoor;
+    public AudioClip doorOpenSound;
+    
     public promptE promptE;
     
     public bool doorOpen;
@@ -41,6 +45,9 @@ public class DoorOpen : MonoBehaviour
 
     private IEnumerator OpenDoor()
     {
+        audioSourceHazardsAndDoor.clip = doorOpenSound;
+        audioSourceHazardsAndDoor.Play();
+        
         doorOpen = true;
         float time = 0f;
         while (time < 1f)

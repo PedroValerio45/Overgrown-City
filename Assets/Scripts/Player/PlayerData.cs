@@ -12,6 +12,7 @@ public class PlayerData : MonoBehaviour
     // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
     public AudioSource audioSourcePlayerOthers;
     public AudioClip fallDamageSound;
+    public AudioClip deathSound;
 
     public UIHealth uiHealth;
     private float playerDamageCooldown = 1f; // Cooldown Amount (Max)
@@ -102,13 +103,7 @@ public class PlayerData : MonoBehaviour
 
     public void ChangeCurrentHP(int amount)
     {
-        /* if (uiHealth == null)
-        {
-            Debug.LogError("uiHealth is NOT assigned in PlayerData!");
-            return;
-        } */
-        
-        if (playerDamageCooldownTimer <= 0)
+        if (playerDamageCooldownTimer <= 0 && playerHP > 0)
         {
             playerHP += amount;
 
@@ -125,6 +120,13 @@ public class PlayerData : MonoBehaviour
             Debug.Log("Damage blocked by cooldown, timer: " + playerDamageCooldownTimer);
         }
 
+        // Lmao I'm dead
+        if (playerHP <= 0)
+        {
+            audioSourcePlayerOthers.pitch = 1f;
+            audioSourcePlayerOthers.clip = deathSound;
+            audioSourcePlayerOthers.Play();
+        }
     }
 
     // PLAYER COLLECTABLES FILE

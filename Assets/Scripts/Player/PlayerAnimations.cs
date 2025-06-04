@@ -27,12 +27,19 @@ public class PlayerAnimations : MonoBehaviour
 
     void Update()
     {
-        isWalking = thirdPersonMovement.isWalking;
-        jumpingAnimTimer = thirdPersonMovement.jumpingAnimTimer;
-        jumpingAnimTimerMax = thirdPersonMovement.jumpingAnimTimerMax;
-        isClimbing = thirdPersonMovement.isClimbing;
-        climbingSpeedAnimMultiplier = thirdPersonMovement.climbingSpeedAnimMultiplier;
-        playerWasHit = playerData.playerWasHit;
+        if (playerData.playerHP > 0)
+        {
+            isWalking = thirdPersonMovement.isWalking;
+            jumpingAnimTimer = thirdPersonMovement.jumpingAnimTimer;
+            jumpingAnimTimerMax = thirdPersonMovement.jumpingAnimTimerMax;
+            isClimbing = thirdPersonMovement.isClimbing;
+            climbingSpeedAnimMultiplier = thirdPersonMovement.climbingSpeedAnimMultiplier;
+            playerWasHit = playerData.playerWasHit;
+        }
+        else
+        {
+            playerWasHit = true;
+        }
 
         playerAnimator.SetBool("isWalking", isWalking);
         playerAnimator.SetBool("isJumping", isJumping);

@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class DoorWrongSide : MonoBehaviour
 {
+    // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
+    public AudioSource audioSourceHazardsAndDoor;
+    public AudioClip doorStuckSound;
+    
     public promptE promptE;
     public DoorOpen doorOpen;
     
@@ -21,6 +25,9 @@ public class DoorWrongSide : MonoBehaviour
         
         if (Input.GetKeyDown(KeyCode.E) && !doorIsOpen && isPlayerInRange)
         {
+            audioSourceHazardsAndDoor.clip = doorStuckSound;
+            audioSourceHazardsAndDoor.Play();
+            
             Debug.Log("There seems to be something blocking the way... Maybe it can be openned from the other side?"); // TO BE ADDED
         }
     }

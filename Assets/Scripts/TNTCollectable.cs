@@ -3,6 +3,12 @@ using UnityEngine;
 
 public class TNTCollectable : MonoBehaviour
 {
+    // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
+    public AudioSource audioSourceHazards;
+    public AudioSource audioSourcePlayerOthers;
+    public AudioClip explosionSound;
+    public AudioClip itemSound;
+    
     public promptE promptE;
     public GameObject tntModel;
     public BuildingFall buildingFall;
@@ -48,6 +54,10 @@ public class TNTCollectable : MonoBehaviour
         // Pick up TNT
         if (playerInRange && !collected && Input.GetKeyDown(KeyCode.E))
         {
+            audioSourcePlayerOthers.pitch = 1f;
+            audioSourcePlayerOthers.clip = itemSound;
+            audioSourcePlayerOthers.Play();
+            
             collected = true;
             placedDown = false;
             promptE.PromptE_Disable();
@@ -56,12 +66,19 @@ public class TNTCollectable : MonoBehaviour
         // Place TNT in the zone
         if (collected && playerInZone && Input.GetKeyDown(KeyCode.E))
         {
+            audioSourcePlayerOthers.pitch = 1f;
+            audioSourcePlayerOthers.clip = itemSound;
+            audioSourcePlayerOthers.Play();
+            
             DropTNTToZone();
         }
 
         // Detonate if placed and ready
         if (tntPlaced && readyToDetonate && playerInZone && Input.GetKeyDown(KeyCode.E) && !buildingHasFallen)
         {
+            audioSourceHazards.clip = explosionSound;
+            audioSourceHazards.Play();
+            
             buildingFall?.StartFalling();
             buildingHasFallen = true;
             tntPlaced = false;

@@ -67,6 +67,7 @@ public class Collectable : MonoBehaviour
     {
         if (playerInRange && !collected && Input.GetKeyDown(KeyCode.E))
         {
+            audioSourcePlayerOthers.pitch = 1f;
             audioSourcePlayerOthers.clip = itemSound;
             audioSourcePlayerOthers.Play();
             
