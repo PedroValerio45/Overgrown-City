@@ -16,6 +16,9 @@ public class GameOver : MonoBehaviour
 
     void Start()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
         uiGroup.alpha = 0f;
         uiGroup.gameObject.SetActive(false);
 
