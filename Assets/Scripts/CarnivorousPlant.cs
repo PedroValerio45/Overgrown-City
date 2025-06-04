@@ -5,6 +5,12 @@ using UnityEngine;
 
 public class CarnivorousPlant : MonoBehaviour
 {
+    // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
+    public AudioSource audioSourceHazards;
+    public AudioSource audioSourcePlayerOthers;
+    public AudioClip plantAttackSound;
+    public AudioClip plantDamageSound;
+    
     public PlayerData playerData;
     private CharacterController cc;
     private Animator animator;
@@ -84,7 +90,10 @@ public class CarnivorousPlant : MonoBehaviour
                     Vector3 direction = (other.transform.position - transform.position).normalized;
                     ApplyKnockback(direction, 50f, 0.25f);
                 }
-
+                
+                audioSourcePlayerOthers.clip = plantDamageSound;
+                audioSourcePlayerOthers.Play();
+                
                 playerData.ChangeCurrentHP(-1);
                 
                 canHitPlayer = false;
@@ -114,6 +123,9 @@ public class CarnivorousPlant : MonoBehaviour
 
     public void DamageFrameOn()
     {
+        audioSourceHazards.clip = plantAttackSound;
+        audioSourceHazards.Play();
+        
         canHitPlayer = true;
     }
     

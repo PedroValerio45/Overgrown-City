@@ -5,6 +5,9 @@ using UnityEngine;
 
 public class Collectable : MonoBehaviour
 {
+    public AudioSource audioSourcePlayerOthers;
+    public AudioClip itemSound;
+    
     // public GameObject player;
     public PlayerData playerData;
     // public PlayerInventory playerInventory;
@@ -64,6 +67,9 @@ public class Collectable : MonoBehaviour
     {
         if (playerInRange && !collected && Input.GetKeyDown(KeyCode.E))
         {
+            audioSourcePlayerOthers.clip = itemSound;
+            audioSourcePlayerOthers.Play();
+            
             collected = true;
             // PlayerData.partsCollectedAmount += 1;
             //PlayerData.partsCollected.Add(collectableID);

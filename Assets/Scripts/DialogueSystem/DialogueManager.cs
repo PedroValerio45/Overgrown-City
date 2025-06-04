@@ -8,8 +8,9 @@ using UnityEngine.UI;
 
 public class DialogueManager : MonoBehaviour
 {
-    //[SerializeField] private AudioSource audioSource;
-    //[SerializeField] private AudioClip text_sfx;
+    // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
+    public AudioSource audioSourceMenus;
+    public AudioClip NpcTalkSound;
 
     [SerializeField] private GameObject Canvas;
     [SerializeField] private TMP_Text NameText;
@@ -175,12 +176,14 @@ public class DialogueManager : MonoBehaviour
 
         foreach (string dialogueLine in CurrentDialogue.Dialogues)
         {
+            audioSourceMenus.clip = NpcTalkSound;
+            audioSourceMenus.Play();
+            
             TextObject.text = "";
 
             foreach (char letter in dialogueLine)
             {
-                //audioSource.clip = text_sfx;
-                //audioSource.Play();
+                
                 TextObject.text += letter;
                 yield return new WaitForSeconds(DialogueTextSpeed);
             }

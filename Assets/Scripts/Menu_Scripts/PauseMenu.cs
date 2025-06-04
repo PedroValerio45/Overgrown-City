@@ -5,6 +5,10 @@ using UnityEngine.SceneManagement;
 
 public class PauseMenu : MonoBehaviour
 {
+    // 
+    public AudioSource audioSourceMenus;
+    public AudioClip clickSound;
+    
     public GameObject pauseMenuUI;
     public GameObject gameUI;
     public ThirdPersonMovement playerMovement;
@@ -22,6 +26,9 @@ public class PauseMenu : MonoBehaviour
 
     public void Resume()
     {
+        audioSourceMenus.clip = clickSound;
+        audioSourceMenus.Play();
+        
         pauseMenuUI.SetActive(false);
         gameUI.SetActive(true);
 
@@ -34,6 +41,9 @@ public class PauseMenu : MonoBehaviour
 
     void Pause()
     {
+        audioSourceMenus.clip = clickSound;
+        audioSourceMenus.Play();
+        
         pauseMenuUI.SetActive(true);
         gameUI.SetActive(false);
 
@@ -44,6 +54,7 @@ public class PauseMenu : MonoBehaviour
         isPaused = true;
     }
 
+    // I can't be bothered
     public void EnterSettings()
     {
         Time.timeScale = 1f;
@@ -53,6 +64,6 @@ public class PauseMenu : MonoBehaviour
     public void QuitGame()
     {
         Time.timeScale = 1f;
-        Application.Quit();
+        SceneManager.LoadScene(0, LoadSceneMode.Single);
     }
 }

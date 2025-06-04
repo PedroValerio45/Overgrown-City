@@ -163,6 +163,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 80d7de60f3c754d469a8bcc2723b2b92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSourcePlayerOthers: {fileID: 0}
+  fallDamageSound: {fileID: 0}
   uiHealth: {fileID: 0}
   playerDamageCooldownTimer: 0
   playerHP: 4
@@ -179,6 +181,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c90c9df5f6bc46f4e8c8dc88aaf68a52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  audioSourcePlayerOthers: {fileID: 0}
+  healSound: {fileID: 0}
   playerData: {fileID: 3104577329677184069}
   uiHealth: {fileID: 0}
   uiPotions: {fileID: 0}
@@ -227,7 +231,10 @@ MonoBehaviour:
   climbingDown: 0
   climbSpeed: 250
   climbingSpeedAnimMultiplier: 0
+  jumpingAnimTimer: 0
+  jumpingAnimTimerMax: 1
   isJumping: 0
+  isFrozen: 0
 --- !u!114 &2776351961273044218
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -263,6 +270,7 @@ MonoBehaviour:
   isClimbing: 0
   playerWasHit: 0
   climbingSpeedAnimMultiplier: 0
+  jumpingAnimTimer: 0
 --- !u!1 &7672995159153806068
 GameObject:
   m_ObjectHideFlags: 0
@@ -547,6 +555,10 @@ PrefabInstance:
         type: 3}
       insertIndex: -1
       addedObject: {fileID: 8677775325725199157}
+    - targetCorrespondingSourceObject: {fileID: 919132149155446097, guid: 8b16417c416e31e4684570b291fe1b43,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 6635761892984311858}
   m_SourcePrefab: {fileID: 100100000, guid: 8b16417c416e31e4684570b291fe1b43, type: 3}
 --- !u!1 &5178512473233754895 stripped
 GameObject:
@@ -575,6 +587,20 @@ Animator:
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorStateOnDisable: 0
   m_WriteDefaultValuesOnDisable: 0
+--- !u!114 &6635761892984311858
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5178512473233754895}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10505888bdf50ef46938d900dd1d11ff, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  audioSourcePlayerWalk: {fileID: 0}
+  grassWalkSound: {fileID: 0}
 --- !u!4 &5518621503714185653 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 8b16417c416e31e4684570b291fe1b43,

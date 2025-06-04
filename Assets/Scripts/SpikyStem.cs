@@ -4,8 +4,10 @@ using UnityEngine;
 
 public class SpikyStem : MonoBehaviour
 {
-    // UI HEALTH HAS TO BE ADDED MANUALLY IN EACH RELEVANT SCENE
-    // public UIHealth uiHealth;
+    // EVERYTHING AUDIO HAS TO BE ADDED MANUALLY IN INSPECTOR FOR EVERY INSTANCE OF THIS FILE
+    public AudioSource audioSourcePlayerOthers;
+    public AudioClip stemDamageSound;
+    
     public PlayerData playerData;
     
     private CharacterController cc;
@@ -59,7 +61,10 @@ public class SpikyStem : MonoBehaviour
                 Vector3 direction = (other.transform.position - transform.position).normalized;
                 ApplyKnockback(direction, 50f, 0.25f);
             }
-
+            
+            audioSourcePlayerOthers.clip = stemDamageSound;
+            audioSourcePlayerOthers.Play();
+            
             playerData.ChangeCurrentHP(-1);
             
             Debug.Log("player collided with stem, Current HP: " + playerData.playerHP);

@@ -55,7 +55,7 @@ public class Cheats : MonoBehaviour
         }
         else if (Input.GetKeyDown(KeyCode.Keypad0))
         {
-            SceneManager.LoadScene(Application.loadedLevel); // Reset scene to test stuff like collectables
+            SceneManager.LoadScene(1, LoadSceneMode.Single);; // Reset scene to test stuff like collectables
         }
     }
 }
