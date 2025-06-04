@@ -1154,7 +1154,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   audioSourceMenus: {fileID: 0}
-  clickSound: {fileID: 0}
+  clickSound: {fileID: 8300000, guid: 283a04b62e5ca1946a26e778edcb0dc5, type: 3}
   pauseMenuUI: {fileID: 496321770572955337}
   gameUI: {fileID: 0}
   settingsMenu: {fileID: 6606656615841886187}
