@@ -7,6 +7,7 @@ public class TNTCollectable : MonoBehaviour
     public GameObject tntModel;
     public BuildingFall buildingFall;
     public GameObject semiTransparent;
+    public GameObject fog;
 
     private bool collected;
     private bool placedDown;
@@ -67,6 +68,8 @@ public class TNTCollectable : MonoBehaviour
             promptE.PromptE_Disable();
             Debug.Log("TNT detonated, building is falling.");
             Destroy(gameObject);
+            
+            fog.SetActive(true);
         }
 
         // Show prompt only when entering relevant zones

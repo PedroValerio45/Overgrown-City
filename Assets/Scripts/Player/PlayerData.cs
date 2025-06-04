@@ -76,6 +76,7 @@ public class PlayerData : MonoBehaviour
 
                 if (fallDistance > fallThreshold)
                 {
+                    audioSourcePlayerOthers.pitch = UnityEngine.Random.Range(0.8f, 1.2f);
                     audioSourcePlayerOthers.clip = fallDamageSound;
                     audioSourcePlayerOthers.Play();
                     
