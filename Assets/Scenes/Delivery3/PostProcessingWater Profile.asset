@@ -162,7 +162,7 @@ MonoBehaviour:
   hueVsSat:
     m_OverrideState: 0
     m_Value:
-      <length>k__BackingField: 0
+      <length>k__BackingField: 3
       m_Loop: 1
       m_ZeroValue: 0.5
       m_Range: 1
@@ -243,6 +243,30 @@ MonoBehaviour:
   - {fileID: -1455639426371737758}
   - {fileID: 6117634610819158342}
   - {fileID: 2196342366109664152}
+  - {fileID: 4058774293228061040}
+  - {fileID: 15546774858599737}
+--- !u!114 &15546774858599737
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5485954d14dfb9a4c8ead8edb0ded5b1, type: 3}
+  m_Name: LiftGammaGain
+  m_EditorClassIdentifier: 
+  active: 1
+  lift:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 0.101137795}
+  gamma:
+    m_OverrideState: 1
+    m_Value: {x: 1, y: 1, z: 1, w: 1}
+  gain:
+    m_OverrideState: 0
+    m_Value: {x: 1, y: 1, z: 1, w: 1}
 --- !u!114 &2196342366109664152
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -259,6 +283,25 @@ MonoBehaviour:
   intensity:
     m_OverrideState: 1
     m_Value: 1
+--- !u!114 &4058774293228061040
+MonoBehaviour:
+  m_ObjectHideFlags: 3
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 221518ef91623a7438a71fef23660601, type: 3}
+  m_Name: WhiteBalance
+  m_EditorClassIdentifier: 
+  active: 1
+  temperature:
+    m_OverrideState: 1
+    m_Value: -100
+  tint:
+    m_OverrideState: 1
+    m_Value: 100
 --- !u!114 &6117634610819158342
 MonoBehaviour:
   m_ObjectHideFlags: 3
@@ -288,8 +331,8 @@ MonoBehaviour:
     m_OverrideState: 0
     m_Value: 65472
   tint:
-    m_OverrideState: 0
-    m_Value: {r: 1, g: 1, b: 1, a: 1}
+    m_OverrideState: 1
+    m_Value: {r: 0, g: 0.63898087, b: 1, a: 1}
   highQualityFiltering:
     m_OverrideState: 0
     m_Value: 0
