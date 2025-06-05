@@ -14,6 +14,9 @@ public class ThirdPersonMovement : MonoBehaviour
 
     [SerializeField] private Vector3 move;
     [SerializeField] public bool isWalking; // Needed for animations
+    
+    public Transform groundCheck;
+    public float groundDistance = 0.4f;
 
     private CharacterController controller;
     private Vector3 velocity;
@@ -136,11 +139,13 @@ public class ThirdPersonMovement : MonoBehaviour
     void HorizontalMovementAndRotation()
     {
         // Is Grounded
-        isGrounded = controller.isGrounded;
-        if (isGrounded && velocity.y < 0 && !isClimbing)
+        // isGrounded = controller.isGrounded;
+        isGrounded = Physics.CheckSphere(groundCheck.position, groundDistance);
+        if (isGrounded && !isClimbing && Mathf.Abs(velocity.y) < 0.1f)
         {
             velocity.y = -2f;
         }
+
 
         if (!isClimbing)
         {
@@ -278,5 +283,13 @@ public class ThirdPersonMovement : MonoBehaviour
             Quaternion targetRotation = Quaternion.LookRotation(directionToTarget);
             characterModel.rotation = Quaternion.Slerp(characterModel.rotation, targetRotation, Time.fixedDeltaTime * 5f);
         }
+    }
+    
+    void OnDrawGizmosSelected()
+    {
+        if (groundCheck == null) return;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawWireSphere(groundCheck.position, groundDistance);
     }
 }

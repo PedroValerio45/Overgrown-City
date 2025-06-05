@@ -1990,7 +1990,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1895897216}
         m_TargetAssemblyTypeName: ManuMenu, Assembly-CSharp
-        m_MethodName: Setings_CancelButton
+        m_MethodName: Settings_CancelButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3271,7 +3271,7 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 1895897216}
         m_TargetAssemblyTypeName: ManuMenu, Assembly-CSharp
-        m_MethodName: Setings_SaveButton
+        m_MethodName: Settings_SaveButton
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}

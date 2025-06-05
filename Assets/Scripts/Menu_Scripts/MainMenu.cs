@@ -24,6 +24,12 @@ public class ManuMenu : MonoBehaviour
     private int buttonPressedNumber;
     private bool playCanFlash;
 
+    void Start()
+    {
+        // Force screen resolution because of UI issues in certain PCs
+        Screen.SetResolution(1920, 1080, false);
+    }
+    
     void Update()
     {
         volumeSliderNewValue = volumeSlider.value;

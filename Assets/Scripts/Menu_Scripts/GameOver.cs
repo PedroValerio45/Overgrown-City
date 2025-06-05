@@ -16,13 +16,13 @@ public class GameOver : MonoBehaviour
 
     void Start()
     {
-        Cursor.visible = true;
-        Cursor.lockState = CursorLockMode.None;
-        
         uiGroup.alpha = 0f;
         uiGroup.gameObject.SetActive(false);
 
         videoPlayer.loopPointReached += OnVideoFinished;
+        
+        // Force screen resolution because of UI issues in certain PCs
+        Screen.SetResolution(1920, 1080, false);
     }
 
     void OnVideoFinished(VideoPlayer vp)
@@ -32,6 +32,9 @@ public class GameOver : MonoBehaviour
 
     IEnumerator FadeInUI()
     {
+        Cursor.visible = true;
+        Cursor.lockState = CursorLockMode.None;
+        
         uiGroup.gameObject.SetActive(true);
         uiGroup.interactable = true;
         uiGroup.blocksRaycasts = true;

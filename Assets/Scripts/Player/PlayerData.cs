@@ -51,6 +51,7 @@ public class PlayerData : MonoBehaviour
         
         // uiHealth = GameObject.Find("UIHealth").GetComponent<UIHealth>();
         
+        // Force screen resolution because of UI issues in certain PCs
         Screen.SetResolution(1920, 1080, false);
     }
 
