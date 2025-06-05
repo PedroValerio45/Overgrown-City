@@ -2,6 +2,16 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+// Finite State Machine states
+public enum NPCState
+{
+    Idle,
+    Moving,
+    Waiting,
+    Talking,
+    ExtraAction
+}
+
 public class NPC_Behaviour : MonoBehaviour
 {
     [SerializeField] public CapsuleCollider cc;
@@ -20,7 +30,7 @@ public class NPC_Behaviour : MonoBehaviour
     [SerializeField] public float interactionRadius;
     [SerializeField] public int npcID;
     [SerializeField] public string npcName;
-    [SerializeField] public bool hasInteractedWithPlayer; // Removed "static" from this
+    [SerializeField] public bool hasInteractedWithPlayer;
     [SerializeField] public SO_Dialogue[] NPC_Dialogue_Roots;
     public bool isFrozen = false; // Needed for animations
 
@@ -29,6 +39,8 @@ public class NPC_Behaviour : MonoBehaviour
     [SerializeField] private PlayerData playerData;
     [SerializeField] private UIInventory uiInventory;
 
+    // FMS
+    public NPCState currentState = NPCState.Idle;
 
     public void Start()
     {
@@ -39,32 +51,65 @@ public class NPC_Behaviour : MonoBehaviour
         
         originalSpeed = moveSpeed;
         ChooseNextWaypoint();
+
+        currentState = NPCState.Moving;
     }
 
     void Update()
     {
-        if (isWaiting || isFrozen) return;
-
-        if (path != null && currentPathIndex < path.Count)
+        if (isFrozen)
         {
-            Waypoint target = path[currentPathIndex];
+            currentState = NPCState.Talking;
+            return;
+        }
 
-            Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+        switch (currentState)
+        {
+            case NPCState.Idle:
+                break;
 
-            float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
-            if (distanceToTarget < 1f)
+            case NPCState.Moving:
+                HandleMovement();
+                break;
+
+            case NPCState.Waiting:
+                break;
+
+            case NPCState.Talking:
+                break;
+        }
+
+        Debug.Log(npcName + " State = " + currentState);
+    }
+
+    void HandleMovement()
+    {
+        if (path == null || currentPathIndex >= path.Count) return;
+
+        Waypoint target = path[currentPathIndex];
+        Vector3 targetPosition = new Vector3(target.transform.position.x, transform.position.y, target.transform.position.z);
+
+        float distanceToTarget = Vector3.Distance(transform.position, targetPosition);
+        if (distanceToTarget < 1f)
+        {
+            moveSpeed = Mathf.Lerp(moveSpeed, 0f, Time.deltaTime * 3f);
+        }
+
+        MoveNPC(targetPosition);
+
+        if (distanceToTarget < 0.1f)
+        {
+            currentPathIndex++;
+            if (currentPathIndex >= path.Count)
             {
-                moveSpeed = Mathf.Lerp(moveSpeed, 0f, Time.deltaTime * 3f);
-            }
-
-            MoveNPC(targetPosition);
-
-            if (distanceToTarget < 0.1f)
-            {
-                currentPathIndex++;
-                if (currentPathIndex >= path.Count)
+                float rand = Random.Range(0f, 1f);
+                if (rand < 0.6f)
                 {
                     StartCoroutine(WaitAtWaypoint());
+                }
+                else
+                {
+                    StartCoroutine(ExtraActionAtWaypoint());
                 }
             }
         }
@@ -92,7 +137,6 @@ public class NPC_Behaviour : MonoBehaviour
         }
 
         var options = currentWaypoint.neighbors;
-
         if (options == null || options.Count == 0)
         {
             // Debug.LogWarning($"{currentWaypoint.name} has no neighbors.");
@@ -116,15 +160,68 @@ public class NPC_Behaviour : MonoBehaviour
 
     private IEnumerator WaitAtWaypoint()
     {
-        isWaiting = true;
+        currentState = NPCState.Waiting;
         float waitTime = Random.Range(2f, 5f);
-        // Debug.Log($"{gameObject.name} is waiting for {waitTime} seconds.");
-
         yield return new WaitForSeconds(waitTime);
 
-        isWaiting = false;
         moveSpeed = originalSpeed;
         ChooseNextWaypoint();
+        currentState = NPCState.Moving;
+    }
+
+    public void StopMovement()
+    {
+        isFrozen = true;
+        rb.velocity = Vector3.zero;
+        currentState = NPCState.Talking;
+    }
+
+    public void ResumeMovement()
+    {
+        isFrozen = false;
+        currentState = NPCState.Moving;
+    }
+
+    public void FaceTarget(Vector3 targetPosition)
+    {
+        StopCoroutine(nameof(SmoothFaceTarget));
+        StartCoroutine(SmoothFaceTarget(targetPosition));
+    }
+
+    private IEnumerator SmoothFaceTarget(Vector3 targetPosition)
+    {
+        Vector3 direction = (targetPosition - transform.position).normalized;
+        direction.y = 0;
+
+        if (direction == Vector3.zero) yield break;
+
+        Quaternion targetRotation = Quaternion.LookRotation(direction);
+        float rotationSpeed = 5f;
+
+        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.5f)
+        {
+            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
+            yield return null;
+        }
+
+        transform.rotation = targetRotation;
+    }
+
+    private IEnumerator ExtraActionAtWaypoint()
+    {
+        currentState = NPCState.ExtraAction;
+        yield return new WaitForSeconds(6f);
+
+        moveSpeed = originalSpeed;
+        ChooseNextWaypoint();
+        currentState = NPCState.Moving;
+    }
+
+
+    private void OnDrawGizmos()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(transform.position, interactionRadius);
     }
 
 
@@ -226,46 +323,5 @@ public class NPC_Behaviour : MonoBehaviour
         }
 
         return 0;
-    }
-    public void StopMovement()
-    {
-        isFrozen = true;
-        rb.velocity = Vector3.zero;
-    }
-
-    public void ResumeMovement()
-    {
-        isFrozen = false;
-    }
-
-    public void FaceTarget(Vector3 targetPosition)
-    {
-        StopCoroutine(nameof(SmoothFaceTarget));
-        StartCoroutine(SmoothFaceTarget(targetPosition));
-    }
-
-    private IEnumerator SmoothFaceTarget(Vector3 targetPosition)
-    {
-        Vector3 direction = (targetPosition - transform.position).normalized;
-        direction.y = 0;
-
-        if (direction == Vector3.zero) yield break;
-
-        Quaternion targetRotation = Quaternion.LookRotation(direction);
-        float rotationSpeed = 5f;
-
-        while (Quaternion.Angle(transform.rotation, targetRotation) > 0.5f)
-        {
-            transform.rotation = Quaternion.Slerp(transform.rotation, targetRotation, Time.deltaTime * rotationSpeed);
-            yield return null;
-        }
-
-        transform.rotation = targetRotation;
-    }
-
-    private void OnDrawGizmos()
-    {
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(transform.position, interactionRadius);
     }
 }
