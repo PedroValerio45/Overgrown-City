@@ -78,8 +78,6 @@ public class NPC_Behaviour : MonoBehaviour
             case NPCState.Talking:
                 break;
         }
-
-        Debug.Log(npcName + " State = " + currentState);
     }
 
     void HandleMovement()
@@ -103,7 +101,7 @@ public class NPC_Behaviour : MonoBehaviour
             if (currentPathIndex >= path.Count)
             {
                 float rand = Random.Range(0f, 1f);
-                if (rand < 0.6f)
+                if (rand < 0.7f)
                 {
                     StartCoroutine(WaitAtWaypoint());
                 }
@@ -161,12 +159,14 @@ public class NPC_Behaviour : MonoBehaviour
     private IEnumerator WaitAtWaypoint()
     {
         currentState = NPCState.Waiting;
+        Debug.Log(npcName + " State = " + currentState);
         float waitTime = Random.Range(2f, 5f);
         yield return new WaitForSeconds(waitTime);
 
         moveSpeed = originalSpeed;
         ChooseNextWaypoint();
         currentState = NPCState.Moving;
+        Debug.Log(npcName + " State = " + currentState);
     }
 
     public void StopMovement()
@@ -210,11 +210,13 @@ public class NPC_Behaviour : MonoBehaviour
     private IEnumerator ExtraActionAtWaypoint()
     {
         currentState = NPCState.ExtraAction;
+        Debug.Log(npcName + " State = " + currentState);
         yield return new WaitForSeconds(6f);
 
         moveSpeed = originalSpeed;
         ChooseNextWaypoint();
         currentState = NPCState.Moving;
+        Debug.Log(npcName + " State = " + currentState);
     }
 
 
