@@ -37,7 +37,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isCrafting
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1924005476920962678}
@@ -62,7 +62,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isCrafting
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isTalking
@@ -90,7 +90,7 @@ AnimatorStateTransition:
   m_Name: 
   m_Conditions:
   - m_ConditionMode: 1
-    m_ConditionEvent: isCrafting
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isTalking
@@ -121,7 +121,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isCrafting
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isTalking
@@ -132,9 +132,9 @@ AnimatorStateTransition:
   m_Mute: 0
   m_IsExit: 0
   serializedVersion: 3
-  m_TransitionDuration: 1.3682635
+  m_TransitionDuration: 0.2034444
   m_TransitionOffset: 0
-  m_ExitTime: 4.9715426e-10
+  m_ExitTime: 6.196769e-10
   m_HasExitTime: 1
   m_HasFixedDuration: 1
   m_InterruptionSource: 0
@@ -152,7 +152,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isCrafting
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 1924005476920962678}
@@ -212,7 +212,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isCrafting
+  - m_Name: isExtraAction
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -334,7 +334,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isCrafting
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isTalking

@@ -9,13 +9,16 @@ public class NPCAnimations : MonoBehaviour
     
     [SerializeField] private bool isWaiting;
     [SerializeField] private bool isTalking;
+    [SerializeField] private bool isExtraAction;
     
     void Update()
     {
-        isWaiting = NpcBehaviour.isWaiting;
-        isTalking = NpcBehaviour.isFrozen;
-        
+        isWaiting = NpcBehaviour.currentState == NPCState.Waiting;
+        isTalking = NpcBehaviour.currentState == NPCState.Talking;
+        isExtraAction = NpcBehaviour.currentState == NPCState.ExtraAction;
+
         NPCAnimator.SetBool("isWalking", !isWaiting);
         NPCAnimator.SetBool("isTalking", isTalking);
+        NPCAnimator.SetBool("isExtraAction", isExtraAction);
     }
 }

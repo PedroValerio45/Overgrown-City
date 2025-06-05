@@ -98,7 +98,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: isWorking
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -7408774100941715178}
@@ -126,7 +126,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isWorking
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3113166654740314057}
@@ -154,7 +154,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isWorking
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: -6859560618160674208}
@@ -182,7 +182,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isWorking
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   m_DstStateMachine: {fileID: 0}
   m_DstState: {fileID: 3113166654740314057}
@@ -213,7 +213,7 @@ AnimatorController:
     m_DefaultInt: 0
     m_DefaultBool: 0
     m_Controller: {fileID: 9100000}
-  - m_Name: isWorking
+  - m_Name: isExtraAction
     m_Type: 4
     m_DefaultFloat: 0
     m_DefaultInt: 0
@@ -250,7 +250,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 2
-    m_ConditionEvent: isWorking
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isTalking
@@ -359,7 +359,7 @@ AnimatorStateTransition:
     m_ConditionEvent: isWalking
     m_EventTreshold: 0
   - m_ConditionMode: 1
-    m_ConditionEvent: isWorking
+    m_ConditionEvent: isExtraAction
     m_EventTreshold: 0
   - m_ConditionMode: 2
     m_ConditionEvent: isTalking
