@@ -15448,12 +15448,12 @@ PrefabInstance:
     - target: {fileID: 7137265898711990108, guid: d8debbe8d70f6494b8cf406a9293202e,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: 0
+      value: 0.0000000014728672
       objectReference: {fileID: 0}
     - target: {fileID: 7137265898711990108, guid: d8debbe8d70f6494b8cf406a9293202e,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0
+      value: -9.16974e-11
       objectReference: {fileID: 0}
     m_RemovedComponents: []
     m_RemovedGameObjects: []
@@ -22993,6 +22993,7 @@ GameObject:
   - component: {fileID: 962437953}
   - component: {fileID: 962437955}
   - component: {fileID: 962437954}
+  - component: {fileID: 962437956}
   m_Layer: 0
   m_Name: FixedEmptyPerspective
   m_TagString: Untagged
@@ -23053,6 +23054,23 @@ BoxCollider:
   serializedVersion: 3
   m_Size: {x: 14, y: 7, z: 18}
   m_Center: {x: 6, y: -3, z: 8.25}
+--- !u!114 &962437956
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 962437952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41ed1cf920bcbc647b4f680539aff9c4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  videoPlayer: {fileID: 1136103760}
+  renderer: {fileID: 1136103763}
+  materialNormal: {fileID: 2100000, guid: f64ca19edde3e734ba7f6789ce191e82, type: 2}
+  materialExtra: {fileID: 2100000, guid: 43e4ca793b59e13428510f1916e689a9, type: 2}
+  poster: {fileID: 1136103759}
 --- !u!1001 &971684353
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -26302,6 +26320,16 @@ PrefabInstance:
       propertyPath: m_Name
       value: EmptyInside
       objectReference: {fileID: 0}
+    - target: {fileID: 6686506969376924659, guid: 3a4a544bdddea7242a12d173ae061f1c,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.125
+      objectReference: {fileID: 0}
+    - target: {fileID: 6686506969376924659, guid: 3a4a544bdddea7242a12d173ae061f1c,
+        type: 3}
+      propertyPath: m_ConstrainProportionsScale
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8615379052876952571, guid: 3a4a544bdddea7242a12d173ae061f1c,
         type: 3}
       propertyPath: m_LocalScale.y
@@ -26319,11 +26347,61 @@ PrefabInstance:
         type: 3}
       insertIndex: 0
       addedObject: {fileID: 962437953}
-    m_AddedComponents: []
+    m_AddedComponents:
+    - targetCorrespondingSourceObject: {fileID: 7388656434978181334, guid: 3a4a544bdddea7242a12d173ae061f1c,
+        type: 3}
+      insertIndex: -1
+      addedObject: {fileID: 1136103760}
   m_SourcePrefab: {fileID: 100100000, guid: 3a4a544bdddea7242a12d173ae061f1c, type: 3}
 --- !u!4 &1136103758 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 4623429485961832450, guid: 3a4a544bdddea7242a12d173ae061f1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1136103757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1136103759 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 7388656434978181334, guid: 3a4a544bdddea7242a12d173ae061f1c,
+    type: 3}
+  m_PrefabInstance: {fileID: 1136103757}
+  m_PrefabAsset: {fileID: 0}
+--- !u!328 &1136103760
+VideoPlayer:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1136103759}
+  m_Enabled: 1
+  m_VideoClip: {fileID: 32900000, guid: 6c2560c978090eb459ea48be27414951, type: 3}
+  m_TargetCameraAlpha: 1
+  m_TargetCamera3DLayout: 0
+  m_TargetCamera: {fileID: 0}
+  m_TargetTexture: {fileID: 8400000, guid: 70a6c84ad9454624caa2f1bd1a37d8cf, type: 2}
+  m_TimeReference: 0
+  m_TargetMaterialRenderer: {fileID: 0}
+  m_TargetMaterialProperty: <noninit>
+  m_RenderMode: 2
+  m_AspectRatio: 2
+  m_DataSource: 0
+  m_TimeUpdateMode: 2
+  m_PlaybackSpeed: 1
+  m_AudioOutputMode: 2
+  m_TargetAudioSources: []
+  m_DirectAudioVolumes: []
+  m_Url: 
+  m_EnabledAudioTracks: 
+  m_DirectAudioMutes: 
+  m_ControlledAudioTrackCount: 0
+  m_PlayOnAwake: 0
+  m_SkipOnDrop: 1
+  m_Looping: 0
+  m_WaitForFirstFrame: 1
+  m_FrameReadyEventEnabled: 0
+  m_VideoShaders: []
+--- !u!23 &1136103763 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 1207726217102585928, guid: 3a4a544bdddea7242a12d173ae061f1c,
     type: 3}
   m_PrefabInstance: {fileID: 1136103757}
   m_PrefabAsset: {fileID: 0}
